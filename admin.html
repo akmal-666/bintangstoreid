@@ -13,7 +13,7 @@
 body{background:#0a0a0f;color:#e8e8f0;min-height:100vh}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#f97316;border-radius:4px}
 .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px}
-.glow-sm{box-shadow:0 0 12px rgba(249,115,22,.15)}
+.glow{box-shadow:0 0 12px rgba(249,115,22,.15)}
 .grid-bg{background-image:linear-gradient(rgba(249,115,22,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,.04) 1px,transparent 1px);background-size:40px 40px}
 .btn-pr{background:linear-gradient(135deg,#f97316,#ea580c);border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;transition:all .2s;padding:12px 24px;font-size:15px}
 .btn-pr:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(249,115,22,.4)}
@@ -34,6 +34,9 @@ body{background:#0a0a0f;color:#e8e8f0;min-height:100vh}
 .ifl[type="date"]{color-scheme:dark}
 .ifl[type="number"]{-moz-appearance:textfield}
 .ifl[type="number"]::-webkit-outer-spin-button,.ifl[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none}
+.ifl-sel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#e8e8f0;padding:12px 16px;font-size:14px;width:100%;transition:border-color .2s;outline:none;cursor:pointer;-webkit-appearance:none}
+.ifl-sel:focus{border-color:rgba(249,115,22,.6)}
+.ifl-sel option{background:#1a1a2e}
 .tab{padding:9px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border:none;background:transparent;color:rgba(255,255,255,.45);white-space:nowrap}
 .tab.on{background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)}
 .tab:hover:not(.on){color:rgba(255,255,255,.75);background:rgba(255,255,255,.05)}
@@ -50,26 +53,24 @@ body{background:#0a0a0f;color:#e8e8f0;min-height:100vh}
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:flex-start;justify-content:center;z-index:100;backdrop-filter:blur(4px);padding:20px;overflow-y:auto}
 nav{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 20px}
 .ni{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:58px;flex-wrap:wrap;gap:8px}
-.ms{position:relative;width:100%;user-select:none}
-.mt{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 40px 10px 12px;min-height:48px;cursor:pointer;display:flex;align-items:flex-start;flex-wrap:wrap;gap:6px;transition:border-color .2s;position:relative}
-.mt.open{border-color:rgba(249,115,22,.6);box-shadow:0 0 0 3px rgba(249,115,22,.08)}
-.ma{position:absolute;right:14px;top:14px;color:rgba(255,255,255,.4);pointer-events:none;font-size:11px}
-.mg{background:rgba(249,115,22,.2);border:1px solid rgba(249,115,22,.4);border-radius:6px;padding:3px 8px;font-size:13px;font-weight:600;color:#fb923c;display:flex;align-items:center;gap:5px}
-.mgx{cursor:pointer;color:rgba(249,115,22,.7);font-size:15px;line-height:1}
-.mp{color:rgba(255,255,255,.25);font-size:14px;line-height:2}
-.md{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#1a1a2e;border:1px solid rgba(249,115,22,.3);border-radius:10px;z-index:200;max-height:200px;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.6)}
-.mo2{padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;font-size:14px;border-bottom:1px solid rgba(255,255,255,.04)}
-.mo2:last-child{border-bottom:none}
-.mo2:hover{background:rgba(249,115,22,.08)}
-.mo2.sel{background:rgba(249,115,22,.1)}
-.mo2 input[type=checkbox]{accent-color:#f97316;width:16px;height:16px;flex-shrink:0;pointer-events:none}
+.mswrap{position:relative;width:100%;user-select:none}
+.mstrig{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 40px 10px 12px;min-height:48px;cursor:pointer;display:flex;align-items:flex-start;flex-wrap:wrap;gap:6px;transition:border-color .2s;position:relative}
+.mstrig.open{border-color:rgba(249,115,22,.6);box-shadow:0 0 0 3px rgba(249,115,22,.08)}
+.msarr{position:absolute;right:14px;top:14px;color:rgba(255,255,255,.4);pointer-events:none;font-size:11px}
+.mstag{background:rgba(249,115,22,.2);border:1px solid rgba(249,115,22,.4);border-radius:6px;padding:3px 8px;font-size:13px;font-weight:600;color:#fb923c;display:flex;align-items:center;gap:5px}
+.mstagx{cursor:pointer;color:rgba(249,115,22,.7);font-size:15px;line-height:1}
+.msph{color:rgba(255,255,255,.25);font-size:14px;line-height:2}
+.msdrop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#1a1a2e;border:1px solid rgba(249,115,22,.3);border-radius:10px;z-index:200;max-height:260px;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.mssearch{background:rgba(255,255,255,.05);border:none;border-bottom:1px solid rgba(255,255,255,.08);color:#e8e8f0;padding:10px 14px;font-size:13px;width:100%;outline:none;border-radius:10px 10px 0 0;position:sticky;top:0;z-index:1}
+.mssearch::placeholder{color:rgba(255,255,255,.3)}
+.msopt{padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;font-size:14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.msopt:last-child{border-bottom:none}
+.msopt:hover{background:rgba(249,115,22,.08)}
+.msopt.sel{background:rgba(249,115,22,.1)}
+.msopt input[type=checkbox]{accent-color:#f97316;width:16px;height:16px;flex-shrink:0;pointer-events:none}
 .ep{background:#0f1117;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;font-size:13px;line-height:1.8;color:#c8c8d8;white-space:pre-wrap}
 .sb{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;color:#4ade80}
 .rb{display:inline-flex;align-items:center;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
-.ro{background:rgba(249,115,22,.12);color:#fb923c;border:1px solid rgba(249,115,22,.25)}
-.ra{background:rgba(37,99,235,.12);color:#60a5fa;border:1px solid rgba(37,99,235,.25)}
-.rs{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.25)}
-.rc{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25)}
 .li{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:start}
 .li:last-child{border-bottom:none}
 .sd{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:4px;animation:bk 2s ease-in-out infinite}
@@ -77,13 +78,12 @@ nav{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.92);backdrop-filt
 .qb{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e8e8f0;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .qi{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#e8e8f0;padding:8px 12px;font-size:18px;font-weight:700;outline:none;text-align:center;width:80px}
 .qi:focus{border-color:rgba(249,115,22,.6)}
-/* Permission toggle */
-.ptog{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:background .15s}
+.ptog{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .15s}
 .ptog:hover{background:rgba(255,255,255,.04)}
 .ptog input[type=checkbox]{accent-color:#f97316;width:16px;height:16px;cursor:pointer;flex-shrink:0}
-.ptog-label{font-size:13px;color:rgba(255,255,255,.7)}
+.ptog span{font-size:13px;color:rgba(255,255,255,.7)}
 .pgroup{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px;margin-bottom:10px}
-.pgroup-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.pgtitle{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -91,100 +91,80 @@ nav{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.92);backdrop-filt
 <div id="tc" style="position:fixed;top:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none"></div>
 <script>
 // ════════════════════════════════════════════════════════════════
-// DEFAULT ACCOUNTS — SHA-256 hashed passwords
-// owner123 / admin123 / staff123
+// PERMISSION DEFINITIONS
 // ════════════════════════════════════════════════════════════════
-const DEFAULT_ACCOUNTS = [
-  {
-    id:'acc_1', username:'Owner', role:'owner', color:'#f97316',
-    pwHash:'240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
-    permissions: allPerms()
-  },
-  {
-    id:'acc_2', username:'Admin', role:'admin', color:'#2563eb',
-    pwHash:'240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
-    permissions: allPerms()
-  },
-  {
-    id:'acc_3', username:'Staff', role:'staff', color:'#7c3aed',
-    pwHash:'6b3a55e25b7f3c4d8e1a2f9d0e4b7c8a3d6f1e2b5c8a9d0e3b6f1a4c7d2e5f8a',
-    permissions: staffPerms()
-  },
+const PERMS = [
+  {group:'Produk',items:[
+    {key:'products_view',   lbl:'Lihat daftar produk'},
+    {key:'products_add',    lbl:'Tambah produk'},
+    {key:'products_edit',   lbl:'Edit produk'},
+    {key:'products_delete', lbl:'Hapus produk'},
+  ]},
+  {group:'Kode Akses',items:[
+    {key:'generate',        lbl:'Generate kode (per order)'},
+    {key:'bulk',            lbl:'Bulk generate kode'},
+    {key:'codes_view',      lbl:'Lihat daftar kode'},
+    {key:'codes_delete',    lbl:'Hapus kode'},
+  ]},
+  {group:'Komunikasi',items:[
+    {key:'send_email',      lbl:'Kirim email ke pembeli'},
+    {key:'send_shopee',     lbl:'Template pesan Shopee'},
+  ]},
+  {group:'Laporan & Data',items:[
+    {key:'report',          lbl:'Lihat laporan penjualan'},
+    {key:'export_xlsx',     lbl:'Export Excel'},
+    {key:'log_view',        lbl:'Lihat log aktivitas'},
+  ]},
+  {group:'Manajemen',items:[
+    {key:'user_management', lbl:'Kelola user & hak akses'},
+    {key:'role_management', lbl:'Kelola master data role'},
+  ]},
 ];
 
 function allPerms(){
-  return {
-    products_view:true, products_add:true, products_edit:true, products_delete:true,
-    generate:true, bulk:true,
-    codes_view:true, codes_delete:true,
-    report:true, export_xlsx:true,
-    log:true,
-    send_email:true, send_shopee:true,
-    user_management:false,
-  };
+  const p={};
+  PERMS.flatMap(g=>g.items).forEach(i=>p[i.key]=true);
+  p.user_management=false; p.role_management=false;
+  return p;
 }
 function staffPerms(){
-  return {
-    products_view:true, products_add:false, products_edit:false, products_delete:false,
-    generate:true, bulk:true,
-    codes_view:true, codes_delete:false,
-    report:true, export_xlsx:false,
-    log:false,
-    send_email:true, send_shopee:true,
-    user_management:false,
-  };
+  return {products_view:true,products_add:false,products_edit:false,products_delete:false,generate:true,bulk:true,codes_view:true,codes_delete:false,send_email:true,send_shopee:true,report:false,export_xlsx:false,log_view:false,user_management:false,role_management:false};
 }
 
-const PERM_LABELS = [
-  {group:'Produk', items:[
-    {key:'products_view',   label:'Lihat daftar produk'},
-    {key:'products_add',    label:'Tambah produk baru'},
-    {key:'products_edit',   label:'Edit produk'},
-    {key:'products_delete', label:'Hapus produk'},
-  ]},
-  {group:'Kode Akses', items:[
-    {key:'generate',        label:'Generate kode (per order)'},
-    {key:'bulk',            label:'Bulk generate kode'},
-    {key:'codes_view',      label:'Lihat daftar kode'},
-    {key:'codes_delete',    label:'Hapus kode'},
-  ]},
-  {group:'Komunikasi', items:[
-    {key:'send_email',      label:'Kirim email ke pembeli'},
-    {key:'send_shopee',     label:'Template pesan Shopee'},
-  ]},
-  {group:'Laporan & Data', items:[
-    {key:'report',          label:'Lihat laporan penjualan'},
-    {key:'export_xlsx',     label:'Export Excel'},
-    {key:'log',             label:'Lihat log aktivitas'},
-  ]},
-  {group:'Manajemen', items:[
-    {key:'user_management', label:'Kelola user & hak akses (Owner only)'},
-  ]},
+// DEFAULT ROLES (master data)
+const DEFAULT_ROLES = [
+  {id:'role_owner',name:'Owner',   color:'#f97316',permissions:{...allPerms(),user_management:true,role_management:true}},
+  {id:'role_admin',name:'Admin',   color:'#2563eb',permissions:allPerms()},
+  {id:'role_staff',name:'Staff',   color:'#7c3aed',permissions:staffPerms()},
 ];
 
-const SITE_URL = 'https://bintangstore.id';
-const SK = 'bsid_admin_session';
-const ST = 4*60*60*1000;
+// DEFAULT ACCOUNTS
+// Passwords: owner123 / admin123 / staff123
+const DEFAULT_ACCOUNTS = [
+  {id:'acc_1',username:'Owner',role:'Owner',color:'#f97316',pwHash:'43a0d17178a9d26c9e0fe9a74b0b45e38d32f27aed887a008a54bf6e033bf7b9',permissions:{...allPerms(),user_management:true,role_management:true}},
+  {id:'acc_2',username:'Admin',role:'Admin',color:'#2563eb',pwHash:'240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',permissions:allPerms()},
+  {id:'acc_3',username:'Staff',role:'Staff',color:'#7c3aed',pwHash:'10176e7b7b24d317acfcf8d2064cfd2f24e154f7b5a96603077d5ef813d6a6b6',permissions:staffPerms()},
+];
 
+const SITE_URL='https://bintangstore.id';
+const SK='bsid_admin_session';
+const ST=4*60*60*1000;
+
+// ── Helpers ───────────────────────────────────────────────────────
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
 
 function getDevice(){
   const u=navigator.userAgent;
   let os='Unknown';
-  if(/Windows NT 10/.test(u))os='Windows 10/11';
-  else if(/Windows/.test(u))os='Windows';
-  else if(/Mac OS X/.test(u))os='macOS';
-  else if(/Android/.test(u))os='Android';
-  else if(/iPhone|iPad/.test(u))os='iOS';
-  else if(/Linux/.test(u))os='Linux';
-  let br='Unknown';
-  if(/Edg\//.test(u))br='Edge';
-  else if(/OPR\//.test(u))br='Opera';
-  else if(/Chrome\//.test(u))br='Chrome';
-  else if(/Safari\//.test(u))br='Safari';
+  if(/Windows NT 10/.test(u))os='Win 10/11';else if(/Windows/.test(u))os='Windows';
+  else if(/Mac OS X/.test(u))os='macOS';else if(/Android/.test(u))os='Android';
+  else if(/iPhone|iPad/.test(u))os='iOS';else if(/Linux/.test(u))os='Linux';
+  let br='?';
+  if(/Edg\//.test(u))br='Edge';else if(/OPR\//.test(u))br='Opera';
+  else if(/Chrome\//.test(u))br='Chrome';else if(/Safari\//.test(u))br='Safari';
   else if(/Firefox\//.test(u))br='Firefox';
-  return `${os} · ${br} · ${/Mobi/i.test(u)?'📱 Mobile':'🖥 Desktop'}`;
+  return os+' · '+br+(/Mobi/i.test(u)?' · 📱':' · 🖥');
 }
 
 const Sess={
@@ -199,21 +179,21 @@ const DB={
   set(k,v){try{localStorage.setItem('bsid_'+k,JSON.stringify(v));}catch(e){}}
 };
 
+function getRoles(){return DB.get('roles')||DEFAULT_ROLES;}
+function saveRoles(r){DB.set('roles',r);}
 function getAccs(){return DB.get('admin_accounts')||DEFAULT_ACCOUNTS;}
 function saveAccs(a){DB.set('admin_accounts',a);}
 
-// Current user permissions helper
 function can(perm){
-  const sess=Sess.get();
-  if(!sess)return false;
-  const accs=getAccs();
-  const acc=accs.find(a=>a.id===sess.id);
+  const s=Sess.get();if(!s)return false;
+  const acc=getAccs().find(a=>a.id===s.id);
   if(!acc)return false;
-  // owner always has user_management
-  if(perm==='user_management') return acc.role==='owner' || acc.permissions?.user_management===true;
   return acc.permissions?.[perm]===true;
 }
 
+function countPerms(p){if(!p)return 0;return Object.values(p).filter(Boolean).length;}
+
+// ── Utils ─────────────────────────────────────────────────────────
 function genCode(){const c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let r="";for(let i=0;i<16;i++){if(i>0&&i%4===0)r+='-';r+=c[Math.floor(Math.random()*c.length)];}return r;}
 function fmtD(iso){if(!iso)return'-';const d=new Date(iso);return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});}
 function idr(n){return 'Rp '+(parseInt(String(n||0).replace(/\D/g,''))||0).toLocaleString('id-ID');}
@@ -234,34 +214,57 @@ function addLog(icon,action,detail=''){
   DB.set('activity_log',logs);
 }
 
-// Email / Shopee
+// ── Email (Gmail URL — works in browser without email client) ─────
 function eSubj(){return '✅ Kode Akses Anda | Bintangstore ID';}
-function eBody({buyerName,code,productNames,siteUrl}){
-  const nm=buyerName||'Pelanggan';
-  const pl=productNames.map((p,i)=>`   ${i+1}. ${p}`).join('\n');
-  return `Halo ${nm},\n\nTerima kasih telah berbelanja di Bintangstore ID! 🎉\n\nKode akses Anda:\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n🔑  ${code}\n━━━━━━━━━━━━━━━━━━━━━━━━\n\n📦 Produk:\n${pl}\n\n📥 Cara download:\n1. Buka: ${siteUrl}\n2. Masukkan kode akses\n3. Klik Verifikasi → Download!\n\n⚠️ Kode hanya bisa dipakai 1x.\n\nTerima kasih ⭐\nTim Bintangstore ID\n🌐 ${siteUrl}`;}
-function sMsg({buyerName,code,productNames,siteUrl}){
-  const nm=buyerName||'Kak';
-  const pl=productNames.map((p,i)=>`${i+1}. ${p}`).join('\n');
-  return `Halo ${nm}! 😊\n\nTerima kasih sudah order di Bintangstore ID ⭐\n\nKode akses pesanan Kak:\n\n🔑 *${code}*\n\nProduk:\n${pl}\n\nCara redeem:\n1. Buka: ${siteUrl}\n2. Masukkan kode\n3. Klik Verifikasi → Download!\n\n⚠️ Kode hanya bisa dipakai 1x.\n\nAda kendala? Chat sini ya Kak 🙏`;}
-function openMailto(o){const s=encodeURIComponent(eSubj());const b=encodeURIComponent(eBody(o));window.open(`mailto:${encodeURIComponent(o.email||'')}?subject=${s}&body=${b}`,'_blank');}
+function eBody(o){
+  const nm=o.buyerName||'Pelanggan';
+  const pl=(o.productNames||[]).map((p,i)=>`   ${i+1}. ${p}`).join('\n');
+  return `Halo ${nm},\n\nTerima kasih telah berbelanja di Bintangstore ID! 🎉\n\nKode akses Anda:\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n🔑  ${o.code}\n━━━━━━━━━━━━━━━━━━━━━━━━\n\n📦 Produk:\n${pl}\n\n📥 Cara download:\n1. Buka: ${o.siteUrl||SITE_URL}\n2. Masukkan kode akses\n3. Klik Verifikasi → Download!\n\n⚠️ Kode hanya bisa dipakai 1x.\n\nTerima kasih ⭐\nTim Bintangstore ID\n🌐 ${o.siteUrl||SITE_URL}`;}
+
+// FIX #5: Gmail compose URL (works di browser tanpa default email client)
+function openGmail(o){
+  const subj=encodeURIComponent(eSubj());
+  const body=encodeURIComponent(eBody(o));
+  const to=encodeURIComponent(o.email||'');
+  // Gmail compose URL — opens directly in Gmail web
+  const gmailUrl=`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subj}&body=${body}`;
+  window.open(gmailUrl,'_blank');
+}
+
+function sMsg(o){
+  const nm=o.buyerName||'Kak';
+  const pl=(o.productNames||[]).map((p,i)=>`${i+1}. ${p}`).join('\n');
+  return `Halo ${nm}! 😊\n\nTerima kasih sudah order di Bintangstore ID ⭐\n\nKode akses pesanan Kak:\n\n🔑 *${o.code}*\n\nProduk:\n${pl}\n\nCara redeem:\n1. Buka: ${SITE_URL}\n2. Masukkan kode\n3. Klik Verifikasi → Download!\n\n⚠️ Kode hanya bisa dipakai 1x.\n\nAda kendala? Chat sini ya Kak 🙏`;}
+
 function copyT(t){navigator.clipboard.writeText(t).catch(()=>{const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();document.execCommand('copy');x.remove();});}
 
-// STATE
+// ── STATE ─────────────────────────────────────────────────────────
 const S={
-  loggedIn:false,me:null,loginUser:'',loginErr:'',
+  loggedIn:false,me:null,loginErr:'',
   tab:'products',
   products:[],codes:[],
   showProdModal:false,editIdx:null,
-  genSel:[],genOpen:false,genRes:null,
-  bulkSel:[],bulkOpen:false,bulkRes:[],bulkQty:1,
+  // generate
+  genSel:[],genOpen:false,genSearch:'',genRes:null,
+  // bulk
+  bulkSel:[],bulkOpen:false,bulkSearch:'',bulkRes:[],bulkQty:1,
+  // codes
   codesFilter:'all',
+  // email modals
   showEmailMo:false,emailDat:null,emailPrev:false,
-  showShopMo:false,
+  // email from codes (force fill)
+  showSendEmailMo:false,sendEmailCode:null,sendEmailName:'',sendEmailAddr:'',
+  // shopee
+  showShopMo:false,shopDat:null,
+  // settings
   showCPw:false,
-  showUserMgmt:false,editUserIdx:null,
-  showUserForm:false,userForm:{username:'',role:'staff',color:'#7c3aed',pwNew:'',pwConf:'',permissions:staffPerms()},
+  showUserMgmt:false,editUserIdx:null,showUserForm:false,
+  userForm:{username:'',roleId:'',color:'#7c3aed',pwNew:'',pwConf:'',permissions:staffPerms()},
+  showRoleMgmt:false,editRoleIdx:null,showRoleForm:false,
+  roleForm:{name:'',color:'#7c3aed',permissions:staffPerms()},
+  // report
   rng:'7d',rngFrom:'',rngTo:'',
+  // log
   logFilter:'all',
 };
 
@@ -271,11 +274,7 @@ window.addEventListener('storage',e=>{
 });
 function loadData(){S.products=DB.get('products')||[];S.codes=DB.get('codes')||[];}
 
-function init(){
-  const s=Sess.get();
-  if(s){S.loggedIn=true;S.me=s;}
-  loadData();render();
-}
+function init(){const s=Sess.get();if(s){S.loggedIn=true;S.me=s;}loadData();render();}
 
 function render(){
   document.getElementById('app').innerHTML=
@@ -283,73 +282,79 @@ function render(){
     `<div class="fi">${S.loggedIn?renderAdmin():renderLogin()}</div>`+
     (S.showProdModal?renderProdModal():'')+
     (S.showEmailMo?renderEmailMo():'')+
+    (S.showSendEmailMo?renderSendEmailMo():'')+
     (S.showShopMo?renderShopMo():'')+
     (S.showCPw?renderCPwMo():'')+
     (S.showUserMgmt?renderUserMgmt():'')+
-    (S.showUserForm?renderUserForm():'');
+    (S.showUserForm?renderUserForm():'')+
+    (S.showRoleMgmt?renderRoleMgmt():'')+
+    (S.showRoleForm?renderRoleForm():'');
 }
 
 // ── NAV ───────────────────────────────────────────────────────────
 function renderNav(){
   const a=S.me;
-  const accs=getAccs();
-  const acc=accs.find(x=>x.id===a?.id);
+  const acc=getAccs().find(x=>x.id===a?.id);
   const clr=acc?.color||'#f97316';
   return `<nav><div class="ni">
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <div style="width:34px;height:34px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">⭐</div>
       <span style="font-weight:800;font-size:17px;letter-spacing:-.5px">Bintangstore<span style="color:#f97316;font-weight:400"> ID</span></span>
-      ${S.loggedIn&&a?`<span class="sb">🔒 ${esc(a.un)}</span><span class="rb" style="background:${clr}22;color:${clr};border:1px solid ${clr}44;font-size:11px;padding:3px 10px">${a.role==='owner'?'👑':a.role==='admin'?'⚙️':'👤'} ${esc(a.role)}</span><span class="sd"></span>`:''}
+      ${S.loggedIn&&a?`<span class="sb">🔒 ${esc(a.un)}</span>
+        <span class="rb" style="background:${clr}22;color:${clr};border:1px solid ${clr}44">${esc(a.role)}</span>
+        <span class="sd"></span>`:''}
     </div>
     ${S.loggedIn?`<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
       <button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="S.showCPw=true;render()">🔑 Ganti PW</button>
-      ${can('user_management')?`<button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="S.showUserMgmt=true;render()">👥 User Management</button>`:''}
+      ${can('user_management')?`<button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="S.showUserMgmt=true;render()">👥 Users</button>`:''}
+      ${can('role_management')?`<button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="S.showRoleMgmt=true;render()">🏷️ Roles</button>`:''}
       <button style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:8px;color:#f87171;font-weight:600;cursor:pointer;padding:6px 12px;font-size:12px" onclick="logout()">Logout</button>
     </div>`:''}
   </div></nav>`;
 }
 function logout(){addLog('🚪','Logout',S.me?.un+' logout');Sess.destroy();S.loggedIn=false;S.me=null;render();}
 
-// ── LOGIN (tampilan sama seperti sebelumnya) ───────────────────────
+// ── LOGIN (FIX #2: username + password text input, no card selection) ─
 function renderLogin(){
-  const accs=getAccs();
   return `<div class="grid-bg" style="min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding:40px 20px">
-    <div class="card glow-sm" style="width:100%;max-width:400px;padding:36px;text-align:center">
-      <div style="font-size:40px;margin-bottom:16px">🔐</div>
-      <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Admin Panel</h2>
-      <p style="color:rgba(255,255,255,.35);font-size:14px;margin-bottom:22px">Pilih akun dan masukkan password</p>
-      <div style="margin-bottom:16px">
-        <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.4);text-align:left;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Pilih Akun</label>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          ${accs.map(acc=>`
-          <div onclick="S.loginUser='${esc(acc.id)}';S.loginErr='';render()"
-            style="padding:12px 16px;border-radius:10px;border:2px solid ${S.loginUser===acc.id?`${esc(acc.color||'#f97316')}99`:'rgba(255,255,255,.08)'};background:${S.loginUser===acc.id?`${esc(acc.color||'#f97316')}11`:'rgba(255,255,255,.02)'};cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s">
-            <div style="width:36px;height:36px;border-radius:50%;background:${esc(acc.color||'#f97316')};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">
-              ${acc.role==='owner'?'👑':acc.role==='admin'?'⚙️':'👤'}
-            </div>
-            <div style="text-align:left;flex:1">
-              <div style="font-weight:700;font-size:14px">${esc(acc.username)}</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.35);text-transform:capitalize">${esc(acc.role)}</div>
-            </div>
-            ${S.loginUser===acc.id?`<span style="color:${esc(acc.color||'#f97316')};font-size:18px">✓</span>`:''}
-          </div>`).join('')}
+    <div class="card glow" style="width:100%;max-width:380px;padding:40px;text-align:center">
+      <div style="width:60px;height:60px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px">⭐</div>
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Bintangstore ID</h2>
+      <p style="color:rgba(255,255,255,.35);font-size:14px;margin-bottom:28px">Admin Panel · Masuk dengan akun Anda</p>
+      <div style="margin-bottom:14px;text-align:left">
+        <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Username</label>
+        <div style="position:relative">
+          <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none">👤</span>
+          <input id="lun" class="ifl" type="text" placeholder="Masukkan username" autocomplete="username"
+            onkeydown="if(event.key==='Enter')document.getElementById('lpw').focus()"
+            style="padding:12px 14px 12px 42px;font-size:15px"/>
         </div>
       </div>
-      <input id="pwIn" class="ifl" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()" style="margin-bottom:10px"/>
-      ${S.loginErr?`<div style="color:#f87171;font-size:13px;margin-bottom:10px">⚠️ ${esc(S.loginErr)}</div>`:''}
-      <button class="btn-pr" style="width:100%" onclick="doLogin()">Masuk →</button>
-      <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.15)">SHA-256 · Session 4 jam</div>
+      <div style="margin-bottom:18px;text-align:left">
+        <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Password</label>
+        <div style="position:relative">
+          <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none">🔑</span>
+          <input id="lpw" class="ifl" type="password" placeholder="Masukkan password" autocomplete="current-password"
+            onkeydown="if(event.key==='Enter')doLogin()"
+            style="padding:12px 14px 12px 42px;font-size:15px"/>
+        </div>
+      </div>
+      ${S.loginErr?`<div style="color:#f87171;font-size:13px;margin-bottom:14px;padding:10px;background:rgba(239,68,68,.08);border-radius:8px;border:1px solid rgba(239,68,68,.2)">⚠️ ${esc(S.loginErr)}</div>`:''}
+      <button class="btn-pr" style="width:100%;padding:14px;font-size:16px" onclick="doLogin()">Masuk →</button>
+      <div style="margin-top:14px;font-size:11px;color:rgba(255,255,255,.15)">SHA-256 · Session 4 jam · Secured</div>
     </div>
   </div>`;
 }
 
 async function doLogin(){
-  if(!S.loginUser){S.loginErr='Pilih akun terlebih dahulu';render();return;}
-  const pw=document.getElementById('pwIn')?.value||'';
+  const un=(document.getElementById('lun')?.value||'').trim();
+  const pw=document.getElementById('lpw')?.value||'';
+  if(!un){S.loginErr='Masukkan username';render();return;}
   if(!pw){S.loginErr='Masukkan password';render();return;}
   const accs=getAccs();
-  const acc=accs.find(a=>a.id===S.loginUser);
-  if(!acc){S.loginErr='Akun tidak ditemukan';render();return;}
+  // Case-insensitive username match
+  const acc=accs.find(a=>a.username.toLowerCase()===un.toLowerCase());
+  if(!acc){S.loginErr='Username tidak ditemukan';render();return;}
   const hash=await sha256(pw);
   if(hash!==acc.pwHash){S.loginErr='Password salah';render();return;}
   Sess.create(acc.id,acc.username,acc.role);
@@ -363,30 +368,25 @@ function renderAdmin(){
   loadData();
   const used=S.codes.filter(c=>c.used);
   const rev=used.reduce((a,c)=>a+idrR(c.price||0),0);
-
-  // Build tabs based on permissions
   const tabs=[];
-  if(can('products_view'))      tabs.push({id:'products',lbl:'📦 Produk'});
-  if(can('generate'))           tabs.push({id:'generate',lbl:'⚡ Generate'});
-  if(can('bulk'))               tabs.push({id:'bulk',    lbl:'📦 Bulk'});
-  if(can('codes_view'))         tabs.push({id:'codes',   lbl:'🔑 Kode'});
-  if(can('report'))             tabs.push({id:'report',  lbl:'📊 Laporan'});
-  if(can('log'))                tabs.push({id:'log',     lbl:'📝 Log'});
-
-  // Redirect if current tab not accessible
-  if(tabs.length && !tabs.find(t=>t.id===S.tab)) S.tab=tabs[0].id;
-
+  if(can('products_view')) tabs.push({id:'products',lbl:'📦 Produk'});
+  if(can('generate'))      tabs.push({id:'generate',lbl:'⚡ Generate'});
+  if(can('bulk'))          tabs.push({id:'bulk',    lbl:'📦 Bulk'});
+  if(can('codes_view'))    tabs.push({id:'codes',   lbl:'🔑 Kode'});
+  if(can('report'))        tabs.push({id:'report',  lbl:'📊 Laporan'});
+  if(can('log_view'))      tabs.push({id:'log',     lbl:'📝 Log'});
+  if(tabs.length&&!tabs.find(t=>t.id===S.tab))S.tab=tabs[0].id;
   return `<div style="min-height:calc(100vh - 58px);padding:24px 20px 60px">
     <div style="max-width:1100px;margin:0 auto">
-      <div style="margin-bottom:18px"><h1 style="font-size:22px;font-weight:800;margin-bottom:3px">Admin Dashboard</h1><p style="color:rgba(255,255,255,.35);font-size:13px">Bintangstore ID · Panel Admin</p></div>
+      <div style="margin-bottom:18px"><h1 style="font-size:22px;font-weight:800;margin-bottom:3px">Dashboard</h1><p style="color:rgba(255,255,255,.35);font-size:13px">Bintangstore ID · Admin Panel</p></div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-bottom:20px">
-        ${scard('📦','Total Produk',S.products.length,'')}${scard('🔑','Total Kode',S.codes.length,'')}${scard('✅','Kode Terpakai',used.length,'green')}${scard('💰','Total Pendapatan',idr(rev),'gold')}
+        ${scard('📦','Produk',S.products.length,'')}${scard('🔑','Total Kode',S.codes.length,'')}${scard('✅','Terpakai',used.length,'green')}${scard('💰','Pendapatan',idr(rev),'gold')}
       </div>
       <div style="display:flex;gap:5px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px">
         ${tabs.map(t=>`<button class="tab ${S.tab===t.id?'on':''}" onclick="S.tab='${t.id}';S.genOpen=false;S.bulkOpen=false;render()">${esc(t.lbl)}</button>`).join('')}
       </div>
-      ${tabs.length===0?`<div class="card" style="padding:60px;text-align:center;color:rgba(255,255,255,.35)"><div style="font-size:40px;margin-bottom:12px">🔒</div><div style="font-size:16px;font-weight:600">Akses Terbatas</div><div style="font-size:13px;margin-top:6px">Akun Anda tidak memiliki hak akses ke fitur apapun.<br>Hubungi Owner untuk mengatur hak akses.</div></div>`
-      :`<div class="fi">${S.tab==='products'?rProducts():S.tab==='generate'?rGenerate():S.tab==='bulk'?rBulk():S.tab==='codes'?rCodes():S.tab==='report'?rReport():rLog()}</div>`}
+      ${tabs.length===0?`<div class="card" style="padding:60px;text-align:center;color:rgba(255,255,255,.35)"><div style="font-size:40px;margin-bottom:12px">🔒</div><div style="font-size:16px;font-weight:600">Akses Terbatas</div><div style="font-size:13px;margin-top:6px">Hubungi Owner untuk mengatur hak akses.</div></div>`
+      :`<div class="fi">${S.tab==='products'?rProd():S.tab==='generate'?rGen():S.tab==='bulk'?rBulk():S.tab==='codes'?rCodes():S.tab==='report'?rReport():rLog()}</div>`}
     </div>
   </div>`;
 }
@@ -397,10 +397,10 @@ function scard(icon,label,val,color){
 }
 
 // ── PRODUCTS ──────────────────────────────────────────────────────
-function rProducts(){
+function rProd(){
   return `<div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <h2 style="font-size:17px;font-weight:700;margin:0">Daftar Produk (${S.products.length})</h2>
+      <h2 style="font-size:17px;font-weight:700;margin:0">Produk (${S.products.length})</h2>
       ${can('products_add')?`<button class="btn-pr" style="padding:10px 16px;font-size:13px" onclick="openProd(null)">+ Tambah</button>`:''}
     </div>
     ${S.products.length===0?`<div class="card" style="padding:60px;text-align:center;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:10px">📦</div>Belum ada produk</div>`
@@ -412,34 +412,106 @@ function rProducts(){
             ${p.category?`<span class="bo">${esc(p.category)}</span>`:''}
             ${p.price?`<span style="color:#4ade80;font-weight:600;font-size:13px">${idr(p.price)}</span>`:''}
           </div>
-          <div style="font-size:11px;color:rgba(255,255,255,.25);margin-top:4px">${p.driveLink?'📁 Drive Terhubung':'<span style="color:#f87171">⚠ Belum ada link</span>'}${p.tutorialLink?' · 📖 Tutorial':''}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.25);margin-top:4px">${p.driveLink?'📁 Drive OK':'<span style="color:#f87171">⚠ Belum ada link</span>'}${p.tutorialLink?' · 📖 Tutorial':''}</div>
         </div>
         <div style="display:flex;gap:8px">
-          ${can('products_edit')?`<button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="openProd(${i})">✏️ Edit</button>`:''}
+          ${can('products_edit')?`<button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="openProd(${i})">✏️</button>`:''}
           ${can('products_delete')?`<button class="btn-dn" onclick="delProd(${i})">🗑️</button>`:''}
         </div>
       </div>`).join('')}</div>`}
   </div>`;
 }
 
-// ── GENERATE (single) ─────────────────────────────────────────────
-function rGenerate(){
+// ── MULTI-SELECT with SEARCH (FIX #4) ─────────────────────────────
+function renderMsDrop(id, selArr, openFlag, searchVal, mode){
+  const filtered = S.products.filter(p =>
+    !searchVal || p.name.toLowerCase().includes(searchVal.toLowerCase())
+  );
+  return `<div class="mswrap" id="${id}">
+    <div class="mstrig ${openFlag?'open':''}" onclick="tDrop(event,'${mode}')">
+      ${selArr.length===0?`<span class="msph">Pilih produk...</span>`:
+        selArr.map(sid=>S.products.find(p=>p.id===sid)).filter(Boolean).map(p=>
+          `<span class="mstag">${esc(p.name)}<span class="mstagx" onclick="rTag('${esc(p.id)}','${mode}',event)">×</span></span>`
+        ).join('')}
+      <span class="msarr">${openFlag?'▲':'▼'}</span>
+    </div>
+    ${openFlag?`<div class="msdrop">
+      <input class="mssearch" placeholder="🔍 Cari produk..." value="${esc(searchVal)}"
+        oninput="if('${mode}'==='gen'){S.genSearch=this.value;}else{S.bulkSearch=this.value;}renderDropOnly('${id}','${mode}')"
+        onclick="event.stopPropagation()" id="mssearch_${mode}"/>
+      ${filtered.length===0?`<div style="padding:14px;color:rgba(255,255,255,.3);font-size:13px;text-align:center">Tidak ada produk ditemukan</div>`:
+        filtered.map(p=>`<div class="msopt ${selArr.includes(p.id)?'sel':''}" onclick="tSel('${esc(p.id)}','${mode}',event)">
+          <input type="checkbox" ${selArr.includes(p.id)?'checked':''} onclick="event.stopPropagation()"/>
+          <div style="flex:1"><div style="font-weight:600">${esc(p.name)}</div>${p.price?`<div style="font-size:11px;color:rgba(255,255,255,.35)">${idr(p.price)}</div>`:''}</div>
+          ${selArr.includes(p.id)?`<span style="color:#f97316">✓</span>`:''}
+        </div>`).join('')}
+    </div>`:''}
+  </div>`;
+}
+
+function renderDropOnly(wrapId, mode){
+  // Re-render only the dropdown content without full re-render (preserves search input focus)
+  const sel = mode==='gen'?S.genSel:S.bulkSel;
+  const search = mode==='gen'?S.genSearch:S.bulkSearch;
+  const filtered = S.products.filter(p => !search||p.name.toLowerCase().includes(search.toLowerCase()));
+  const drop = document.querySelector(`#${wrapId} .msdrop`);
+  if(!drop)return;
+  const searchEl = drop.querySelector('.mssearch');
+  const optHtml = filtered.length===0
+    ?`<div style="padding:14px;color:rgba(255,255,255,.3);font-size:13px;text-align:center">Tidak ada produk</div>`
+    :filtered.map(p=>`<div class="msopt ${sel.includes(p.id)?'sel':''}" onclick="tSel('${esc(p.id)}','${mode}',event)">
+      <input type="checkbox" ${sel.includes(p.id)?'checked':''} onclick="event.stopPropagation()"/>
+      <div style="flex:1"><div style="font-weight:600">${esc(p.name)}</div>${p.price?`<div style="font-size:11px;color:rgba(255,255,255,.35)">${idr(p.price)}</div>`:''}</div>
+      ${sel.includes(p.id)?`<span style="color:#f97316">✓</span>`:''}
+    </div>`).join('');
+  // Remove old opts, keep search input
+  Array.from(drop.children).filter(el=>!el.classList.contains('mssearch')).forEach(el=>el.remove());
+  drop.insertAdjacentHTML('beforeend', optHtml);
+}
+
+function tDrop(e,mode){
+  e.stopPropagation();
+  if(mode==='gen'){S.genOpen=!S.genOpen;S.bulkOpen=false;}
+  else{S.bulkOpen=!S.bulkOpen;S.genOpen=false;}
+  render();
+  const isO=mode==='gen'?S.genOpen:S.bulkOpen;
+  const wid=mode==='gen'?'genWrap':'bulkWrap';
+  if(isO){
+    setTimeout(()=>{
+      document.getElementById('mssearch_'+mode)?.focus();
+      const h=(ev)=>{if(!document.getElementById(wid)?.contains(ev.target)){if(mode==='gen'){S.genOpen=false;S.genSearch='';}else{S.bulkOpen=false;S.bulkSearch='';}render();document.removeEventListener('click',h);}};
+      document.addEventListener('click',h);
+    },50);
+  }
+}
+function tSel(id,mode,e){
+  e.stopPropagation();
+  const k=mode==='gen'?'genSel':'bulkSel';
+  S[k]=S[k].includes(id)?S[k].filter(x=>x!==id):[...S[k],id];
+  // Re-render options without losing search focus
+  const search=mode==='gen'?S.genSearch:S.bulkSearch;
+  renderDropOnly(mode==='gen'?'genWrap':'bulkWrap',mode);
+}
+function rTag(id,mode,e){
+  e.stopPropagation();
+  const k=mode==='gen'?'genSel':'bulkSel';
+  S[k]=S[k].filter(x=>x!==id);
+  if(mode==='gen'){S.genOpen=false;S.genSearch='';}else{S.bulkOpen=false;S.bulkSearch='';}
+  render();
+}
+
+// ── GENERATE ─────────────────────────────────────────────────────
+function rGen(){
   const sel=S.genSel;
   const selP=sel.map(id=>S.products.find(p=>p.id===id)).filter(Boolean);
   const tot=selP.reduce((a,p)=>a+idrR(p.price||0),0);
   return `<div style="max-width:580px">
     <h2 style="font-size:17px;font-weight:700;margin:0 0 4px">⚡ Generate Kode Akses</h2>
-    <p style="font-size:13px;color:rgba(255,255,255,.4);margin:0 0 18px">1 order lengkap dengan data pembeli ${can('send_email')||can('send_shopee')?'+ kirim notifikasi':''}</p>
+    <p style="font-size:13px;color:rgba(255,255,255,.4);margin:0 0 18px">1 order + data pembeli lengkap</p>
     <div class="card" style="padding:24px">
       <div style="margin-bottom:16px">
         <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">PILIH PRODUK *</label>
-        <div class="ms" id="gW">
-          <div class="mt ${S.genOpen?'open':''}" onclick="tDrop(event,'gen')">
-            ${sel.length===0?`<span class="mp">Pilih produk...</span>`:selP.map(p=>`<span class="mg">${esc(p.name)}<span class="mgx" onclick="rTag('${esc(p.id)}','gen',event)">×</span></span>`).join('')}
-            <span class="ma">${S.genOpen?'▲':'▼'}</span>
-          </div>
-          ${S.genOpen?`<div class="md">${S.products.length===0?`<div style="padding:14px;color:rgba(255,255,255,.3);font-size:13px">Belum ada produk.</div>`:S.products.map(p=>`<div class="mo2 ${sel.includes(p.id)?'sel':''}" onclick="tSel('${esc(p.id)}','gen',event)"><input type="checkbox" ${sel.includes(p.id)?'checked':''} onclick="event.stopPropagation()"/><div style="flex:1"><div style="font-weight:600">${esc(p.name)}</div>${p.price?`<div style="font-size:11px;color:rgba(255,255,255,.35)">${idr(p.price)}</div>`:''}</div>${sel.includes(p.id)?`<span style="color:#f97316">✓</span>`:''}</div>`).join('')}</div>`:''}
-        </div>
+        ${renderMsDrop('genWrap',sel,S.genOpen,S.genSearch,'gen')}
         ${sel.length>0?`<div style="margin-top:8px;padding:9px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:13px;color:rgba(255,255,255,.6);display:flex;gap:12px;flex-wrap:wrap"><span>🛒 <strong style="color:#f97316">${sel.length}</strong> produk</span>${tot>0?`<span>💰 <strong style="color:#4ade80">${idr(tot)}</strong></span>`:''}</div>`:''}
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
@@ -454,21 +526,27 @@ function rGenerate(){
     <div class="card" style="padding:24px;margin-top:16px;border-color:rgba(249,115,22,.3)">
       <div style="font-size:13px;font-weight:700;color:#f97316;margin-bottom:12px">✅ Kode Berhasil Digenerate</div>
       <div class="mono" style="font-size:26px;font-weight:700;color:#f97316;letter-spacing:5px;text-align:center;padding:18px;background:rgba(249,115,22,.06);border:1px dashed rgba(249,115,22,.3);border-radius:10px;margin-bottom:12px">${esc(S.genRes.code)}</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px">📦 ${esc(S.genRes.pNames.join(', '))}${S.genRes.buyer?` · 👤 <strong style="color:#e8e8f0">${esc(S.genRes.buyer)}</strong>`:''}${S.genRes.email?` · 📧 <span style="color:#60a5fa">${esc(S.genRes.email)}</span>`:''}</div>
-      <div style="display:grid;grid-template-columns:${can('send_email')&&can('send_shopee')?'1fr 1fr':can('send_email')||can('send_shopee')?'1fr 1fr':'1fr'};gap:10px;margin-bottom:10px">
+      <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px">
+        📦 ${esc(S.genRes.pNames.join(', '))}
+        ${S.genRes.buyer?` · 👤 <strong style="color:#e8e8f0">${esc(S.genRes.buyer)}</strong>`:''}
+        ${S.genRes.email?` · 📧 <span style="color:#60a5fa">${esc(S.genRes.email)}</span>`:''}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
         <button class="btn-se" onclick="copyT('${esc(S.genRes.code)}');toast('Kode disalin! 📋')">📋 Copy Kode</button>
-        ${can('send_email')?(S.genRes.email?`<button class="btn-em" onclick="S.showEmailMo=true;S.emailDat=S.genRes;render()">📧 Kirim Email</button>`:`<button class="btn-se" style="opacity:.4;cursor:not-allowed">📧 Kirim Email</button>`):''}
+        ${can('send_email')?(S.genRes.email
+          ?`<button class="btn-em" onclick="S.showEmailMo=true;S.emailDat=S.genRes;render()">📧 Kirim Email</button>`
+          :`<button class="btn-se" style="opacity:.5;cursor:not-allowed" title="Isi email pembeli">📧 Kirim Email</button>`):''}
       </div>
       <div style="display:grid;grid-template-columns:${can('send_email')&&can('send_shopee')?'1fr 1fr':'1fr'};gap:10px">
-        ${can('send_email')?`<button class="btn-se" onclick="copyT('Subject: '+eSubj()+'\\n\\n'+eBody({buyerName:S.genRes.buyer,code:S.genRes.code,productNames:S.genRes.pNames,siteUrl:'${SITE_URL}'}));toast('Template email disalin! 📝')">📝 Template Email</button>`:''}
-        ${can('send_shopee')?`<button class="btn-sh" onclick="S.showShopMo=true;render()">🛍 Template Shopee</button>`:''}
+        ${can('send_email')?`<button class="btn-se" onclick="copyEmailTpl(S.genRes)">📝 Template Email</button>`:''}
+        ${can('send_shopee')?`<button class="btn-sh" onclick="S.showShopMo=true;S.shopDat=S.genRes;render()">🛍 Template Shopee</button>`:''}
       </div>
       <button class="btn-se" style="width:100%;margin-top:10px" onclick="S.genRes=null;S.genSel=[];render()">+ Generate Lagi</button>
     </div>`:''}
   </div>`;
 }
 
-// ── BULK GENERATE ─────────────────────────────────────────────────
+// ── BULK ──────────────────────────────────────────────────────────
 function rBulk(){
   const sel=S.bulkSel;
   const selP=sel.map(id=>S.products.find(p=>p.id===id)).filter(Boolean);
@@ -479,13 +557,7 @@ function rBulk(){
     <div class="card" style="padding:24px">
       <div style="margin-bottom:16px">
         <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">PILIH PRODUK *</label>
-        <div class="ms" id="bW">
-          <div class="mt ${S.bulkOpen?'open':''}" onclick="tDrop(event,'bulk')">
-            ${sel.length===0?`<span class="mp">Pilih produk...</span>`:selP.map(p=>`<span class="mg">${esc(p.name)}<span class="mgx" onclick="rTag('${esc(p.id)}','bulk',event)">×</span></span>`).join('')}
-            <span class="ma">${S.bulkOpen?'▲':'▼'}</span>
-          </div>
-          ${S.bulkOpen?`<div class="md">${S.products.length===0?`<div style="padding:14px;color:rgba(255,255,255,.3);font-size:13px">Belum ada produk.</div>`:S.products.map(p=>`<div class="mo2 ${sel.includes(p.id)?'sel':''}" onclick="tSel('${esc(p.id)}','bulk',event)"><input type="checkbox" ${sel.includes(p.id)?'checked':''} onclick="event.stopPropagation()"/><div style="flex:1"><div style="font-weight:600">${esc(p.name)}</div>${p.price?`<div style="font-size:11px;color:rgba(255,255,255,.35)">${idr(p.price)}</div>`:''}</div>${sel.includes(p.id)?`<span style="color:#f97316">✓</span>`:''}</div>`).join('')}</div>`:''}
-        </div>
+        ${renderMsDrop('bulkWrap',sel,S.bulkOpen,S.bulkSearch,'bulk')}
       </div>
       <div style="margin-bottom:20px">
         <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">JUMLAH KODE *</label>
@@ -497,7 +569,7 @@ function rBulk(){
         </div>
         <div style="margin-top:8px;font-size:13px;color:rgba(249,115,22,.7)">⚡ Generate <strong>${qty}</strong> kode · <strong style="color:#e8e8f0">${selP.map(p=>p.name).join(', ')||'—'}</strong></div>
       </div>
-      <div style="margin-bottom:20px"><label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">CATATAN BATCH</label><input class="ifl" id="bNot" placeholder="cth: Stok Januari, Flash Sale..." style="font-size:14px;padding:10px 14px"/></div>
+      <div style="margin-bottom:20px"><label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">CATATAN BATCH</label><input class="ifl" id="bNot" placeholder="cth: Stok Januari..." style="font-size:14px;padding:10px 14px"/></div>
       <button class="btn-pr" style="width:100%;padding:14px;font-size:16px" ${sel.length===0?'disabled':''} onclick="doBulk()">📦 Generate ${qty} Kode</button>
     </div>
     ${S.bulkRes.length>0?`
@@ -509,25 +581,13 @@ function rBulk(){
           <button class="btn-gr" style="padding:8px 14px;font-size:13px" onclick="expBulkTxt()">📄 Export .txt</button>
         </div>
       </div>
-      <div style="max-height:260px;overflow-y:auto;background:#0f1117;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px">
+      <div style="max-height:240px;overflow-y:auto;background:#0f1117;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px">
         ${S.bulkRes.map((r,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:12px;color:rgba(255,255,255,.3);min-width:26px">${i+1}.</span><span class="mono" style="font-size:14px;font-weight:700;color:#f97316;letter-spacing:2px;flex:1">${esc(r.code)}</span><button onclick="copyT('${esc(r.code)}');toast('Disalin!')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);font-size:12px">📋</button></div>`).join('')}
       </div>
       <button class="btn-se" style="width:100%;margin-top:12px" onclick="S.bulkRes=[];S.bulkSel=[];S.bulkQty=1;render()">+ Generate Lagi</button>
     </div>`:''}
   </div>`;
 }
-
-// Shared dropdown helpers
-function tDrop(e,m){
-  e.stopPropagation();
-  if(m==='gen'){S.genOpen=!S.genOpen;S.bulkOpen=false;}else{S.bulkOpen=!S.bulkOpen;S.genOpen=false;}
-  render();
-  const isO=m==='gen'?S.genOpen:S.bulkOpen;
-  const wid=m==='gen'?'gW':'bW';
-  if(isO){setTimeout(()=>{const h=(ev)=>{if(!document.getElementById(wid)?.contains(ev.target)){if(m==='gen')S.genOpen=false;else S.bulkOpen=false;render();document.removeEventListener('click',h);}};document.addEventListener('click',h);},10);}
-}
-function tSel(id,m,e){e.stopPropagation();const k=m==='gen'?'genSel':'bulkSel';S[k]=S[k].includes(id)?S[k].filter(x=>x!==id):[...S[k],id];render();}
-function rTag(id,m,e){e.stopPropagation();const k=m==='gen'?'genSel':'bulkSel';S[k]=S[k].filter(x=>x!==id);if(m==='gen')S.genOpen=false;else S.bulkOpen=false;render();}
 
 function doGen(){
   if(!S.genSel.length){toast('Pilih minimal 1 produk!','error');return;}
@@ -542,7 +602,7 @@ function doGen(){
   S.codes=[...S.codes,{code,productIds:S.genSel.slice(),productNames:selP.map(p=>p.name),productName:selP.map(p=>p.name).join(', '),price,orderId:ord,buyerName:buy,email:eml,notes:not,used:false,usedAt:null,createdAt:new Date().toISOString(),generatedBy:S.me?.un||'-'}];
   DB.set('codes',S.codes);
   S.genRes={code,pNames:selP.map(p=>p.name),buyer:buy,email:eml};
-  S.genSel=[];S.genOpen=false;
+  S.genSel=[];S.genOpen=false;S.genSearch='';
   addLog('⚡','Generate kode',`${code} — ${selP.map(p=>p.name).join(', ')}${buy?' — '+buy:''}`);
   render();toast('Kode berhasil digenerate! 🎉');
 }
@@ -560,7 +620,7 @@ function doBulk(){
     results.push({code,productNames:selP.map(p=>p.name)});
   }
   S.codes=[...S.codes,...entries];DB.set('codes',S.codes);
-  S.bulkRes=results;S.bulkSel=[];S.bulkOpen=false;
+  S.bulkRes=results;S.bulkSel=[];S.bulkOpen=false;S.bulkSearch='';
   addLog('📦','Bulk generate',`${qty} kode — ${selP.map(p=>p.name).join(', ')}`);
   render();toast(`${qty} kode berhasil digenerate! 📦`);
 }
@@ -571,7 +631,7 @@ function expBulkTxt(){
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`bulk_${new Date().toLocaleDateString('id-ID').replace(/\//g,'-')}.txt`;a.click();toast('File .txt didownload!');
 }
 
-// ── EMAIL MODAL ───────────────────────────────────────────────────
+// ── EMAIL MODAL (from generate) ───────────────────────────────────
 function renderEmailMo(){
   const d=S.emailDat;if(!d)return'';
   const subj=eSubj();
@@ -579,7 +639,7 @@ function renderEmailMo(){
   return `<div class="mo" onclick="if(event.target===this){S.showEmailMo=false;render()}">
     <div class="card fi" style="width:100%;max-width:600px;padding:0;border-color:rgba(37,99,235,.3);margin-top:20px">
       <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">📧</div><div><div style="font-weight:800;font-size:16px">Kirim Email</div><div style="font-size:12px;color:rgba(255,255,255,.4)">Preview & kirim kode akses</div></div></div>
+        <div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">📧</div><div><div style="font-weight:800;font-size:16px">Kirim Email ke Pembeli</div><div style="font-size:12px;color:rgba(255,255,255,.4)">Dibuka via Gmail di browser</div></div></div>
         <button onclick="S.showEmailMo=false;render()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:20px">✕</button>
       </div>
       <div style="padding:22px">
@@ -594,10 +654,15 @@ function renderEmailMo(){
         </div>
         ${S.emailPrev?`<div class="ep" style="margin-bottom:16px;max-height:220px;overflow-y:auto">${esc(body)}</div>`:''}
         <div style="display:flex;flex-direction:column;gap:10px">
-          <button class="btn-em" style="width:100%;padding:14px;font-size:15px" onclick="openMailto({email:'${esc(d.email)}',buyerName:'${esc(d.buyer)}',code:'${esc(d.code)}',productNames:${JSON.stringify(d.pNames)},siteUrl:'${SITE_URL}'});toast('Membuka email...','blue')">📧 Buka di Aplikasi Email</button>
+          <button class="btn-em" style="width:100%;padding:14px;font-size:15px" onclick="openGmail({email:'${esc(d.email)}',buyerName:'${esc(d.buyer||'')}',code:'${esc(d.code)}',productNames:${JSON.stringify(d.pNames)},siteUrl:'${SITE_URL}'});toast('Membuka Gmail...','blue')">
+            📧 &nbsp;Buka Gmail & Kirim Email
+          </button>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <button class="btn-se" style="padding:11px" onclick="copyT('Subject: '+eSubj()+'\\n\\n'+eBody({buyerName:'${esc(d.buyer)}',code:'${esc(d.code)}',productNames:${JSON.stringify(d.pNames)},siteUrl:'${SITE_URL}'}));toast('Template disalin! 📝')">📝 Copy Template</button>
+            <button class="btn-se" style="padding:11px" onclick="copyEmailTpl({pNames:${JSON.stringify(d.pNames)},buyer:'${esc(d.buyer||'')}',code:'${esc(d.code)}'})">📝 Copy Template</button>
             <button class="btn-se" style="padding:11px" onclick="copyT('${esc(d.code)}');toast('Kode disalin! 📋')">🔑 Copy Kode</button>
+          </div>
+          <div style="padding:10px 14px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15);border-radius:8px;font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">
+            💡 Tombol "Buka Gmail" langsung membuka Gmail di browser — tidak perlu aplikasi email. Atau copy template untuk kirim via Shopee Chat.
           </div>
         </div>
       </div>
@@ -605,10 +670,93 @@ function renderEmailMo(){
   </div>`;
 }
 
+function copyEmailTpl(d){
+  const body=eBody({buyerName:d.buyer||d.buyerName||'',code:d.code,productNames:d.pNames||d.productNames||[],siteUrl:SITE_URL});
+  const full=`Subject: ${eSubj()}\n\n${body}`;
+  copyT(full);toast('Template email disalin! 📝');
+}
+
+// ── SEND EMAIL FROM CODES (FIX #1 — force fill email+name) ────────
+function openSendEmailFromCode(code){
+  const c=S.codes.find(x=>x.code===code);
+  if(!c)return;
+  S.sendEmailCode=c;
+  S.sendEmailName=c.buyerName||'';
+  S.sendEmailAddr=c.email||'';
+  S.showSendEmailMo=true;
+  render();
+}
+
+function renderSendEmailMo(){
+  const c=S.sendEmailCode;if(!c)return'';
+  return `<div class="mo" onclick="if(event.target===this){S.showSendEmailMo=false;render()}">
+    <div class="card fi" style="width:100%;max-width:480px;padding:28px;border-color:rgba(37,99,235,.3);margin-top:20px">
+      <h3 style="font-size:17px;font-weight:800;margin:0 0 6px">📧 Kirim Email ke Pembeli</h3>
+      <div class="mono" style="font-size:13px;color:rgba(249,115,22,.8);margin-bottom:20px">${esc(c.code)}</div>
+
+      <div style="margin-bottom:12px">
+        <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">NAMA PEMBELI *</label>
+        <input class="ifl" id="semName" type="text" placeholder="Masukkan nama pembeli" value="${esc(S.sendEmailName)}"
+          oninput="S.sendEmailName=this.value" style="font-size:14px;padding:10px 14px"/>
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">EMAIL PEMBELI *</label>
+        <div style="position:relative">
+          <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none">📧</span>
+          <input class="ifl" id="semEmail" type="email" placeholder="pembeli@email.com" value="${esc(S.sendEmailAddr)}"
+            oninput="S.sendEmailAddr=this.value" style="font-size:14px;padding:10px 14px 10px 40px"/>
+        </div>
+      </div>
+
+      <div style="padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:16px">
+        📦 Produk: <strong style="color:#e8e8f0">${esc((c.productNames||[c.productName||'-']).join(', '))}</strong>
+      </div>
+
+      <div id="semErr" style="display:none;color:#f87171;font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.08);border-radius:8px;border:1px solid rgba(239,68,68,.2)"></div>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button class="btn-em" style="width:100%;padding:14px;font-size:15px" onclick="doSendEmailFromCode()">📧 Buka Gmail & Kirim Email</button>
+        <button class="btn-se" style="width:100%;padding:12px" onclick="doCopyEmailFromCode()">📝 Copy Template Email</button>
+        <button class="btn-se" style="width:100%;padding:12px" onclick="S.showSendEmailMo=false;render()">Batal</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function doSendEmailFromCode(){
+  const name=document.getElementById('semName')?.value.trim()||S.sendEmailName;
+  const email=document.getElementById('semEmail')?.value.trim()||S.sendEmailAddr;
+  const se=(m)=>{const e=document.getElementById('semErr');if(e){e.textContent='⚠️ '+m;e.style.display='block';}};
+  if(!name){se('Nama pembeli wajib diisi');return;}
+  if(!email){se('Email pembeli wajib diisi');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){se('Format email tidak valid');return;}
+  const c=S.sendEmailCode;
+  // Update email in codes if changed
+  if(email!==c.email||name!==c.buyerName){
+    S.codes=S.codes.map(x=>x.code===c.code?{...x,buyerName:name,email}:x);
+    DB.set('codes',S.codes);
+  }
+  openGmail({email,buyerName:name,code:c.code,productNames:c.productNames||[c.productName||'-'],siteUrl:SITE_URL});
+  toast('Membuka Gmail...','blue');
+  S.showSendEmailMo=false;render();
+}
+
+function doCopyEmailFromCode(){
+  const name=document.getElementById('semName')?.value.trim()||S.sendEmailName;
+  const email=document.getElementById('semEmail')?.value.trim()||S.sendEmailAddr;
+  const se=(m)=>{const e=document.getElementById('semErr');if(e){e.textContent='⚠️ '+m;e.style.display='block';}};
+  if(!name){se('Nama pembeli wajib diisi');return;}
+  if(!email){se('Email pembeli wajib diisi');return;}
+  const c=S.sendEmailCode;
+  copyEmailTpl({buyer:name,code:c.code,pNames:c.productNames||[c.productName||'-']});
+  S.showSendEmailMo=false;render();
+}
+
 // ── SHOPEE MODAL ──────────────────────────────────────────────────
 function renderShopMo(){
-  const d=S.genRes;if(!d)return'';
-  const msg=sMsg({buyerName:d.buyer,code:d.code,productNames:d.pNames,siteUrl:SITE_URL});
+  const d=S.shopDat;if(!d)return'';
+  const msg=sMsg({buyerName:d.buyer||d.buyerName,code:d.code,productNames:d.pNames||d.productNames||[]});
+  const enc=encodeURIComponent(msg);
   return `<div class="mo" onclick="if(event.target===this){S.showShopMo=false;render()}">
     <div class="card fi" style="width:100%;max-width:520px;padding:0;border-color:rgba(238,77,45,.3);margin-top:20px">
       <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between">
@@ -617,7 +765,7 @@ function renderShopMo(){
       </div>
       <div style="padding:22px">
         <div style="background:#1a0a05;border:1px solid rgba(238,77,45,.2);border-radius:12px;padding:18px;font-size:13px;line-height:1.8;color:#e8d8d0;white-space:pre-wrap;max-height:280px;overflow-y:auto;margin-bottom:16px">${esc(msg)}</div>
-        <button class="btn-sh" style="width:100%;padding:14px;font-size:15px" onclick="copyT(sMsg({buyerName:'${esc(d.buyer)}',code:'${esc(d.code)}',productNames:${JSON.stringify(d.pNames)},siteUrl:'${SITE_URL}'}));toast('Pesan Shopee disalin! 🛍');addLog('🛍','Copy pesan Shopee','')">📋 Copy Pesan Shopee</button>
+        <button class="btn-sh" style="width:100%;padding:14px;font-size:15px" onclick="copyT(decodeURIComponent('${enc}'));toast('Pesan Shopee disalin! 🛍');addLog('🛍','Copy pesan Shopee','')">📋 Copy Pesan Shopee</button>
         <div style="margin-top:10px;padding:10px 14px;background:rgba(238,77,45,.06);border:1px solid rgba(238,77,45,.15);border-radius:8px;font-size:12px;color:rgba(255,255,255,.5)">💡 Copy → buka Shopee → chat pembeli → paste & kirim</div>
       </div>
     </div>
@@ -633,23 +781,23 @@ function rCodes(){
       <h2 style="font-size:17px;font-weight:700;margin:0">Daftar Kode (${list.length})</h2>
       <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
         ${['all','unused','used'].map(f=>`<button class="tab ${S.codesFilter===f?'on':''}" onclick="S.codesFilter='${f}';render()" style="padding:6px 10px;font-size:12px">${f==='all'?'Semua':f==='unused'?'Belum':'Terpakai'}</button>`).join('')}
-        ${can('export_xlsx')?`<button class="btn-gr" style="padding:7px 14px;font-size:13px" onclick="expXLSX()">📥 Export Excel</button>`:''}
+        ${can('export_xlsx')?`<button class="btn-gr" style="padding:7px 14px;font-size:13px" onclick="expXLSX()">📥 Excel</button>`:''}
       </div>
     </div>
     ${!list.length?`<div class="card" style="padding:60px;text-align:center;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:10px">🔑</div>Tidak ada kode</div>`
-    :`<div class="card" style="overflow:hidden"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:720px">
-      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.07)">${['Kode','Produk','Pembeli/Email','Harga','Status','Dibuat','Digunakan','Oleh','Aksi'].map(h=>`<th style="padding:10px 12px;text-align:left;font-size:11px;color:rgba(255,255,255,.35);font-weight:600;text-transform:uppercase;white-space:nowrap">${h}</th>`).join('')}</tr></thead>
+    :`<div class="card" style="overflow:hidden"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:700px">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.07)">${['Kode','Produk','Pembeli/Email','Harga','Status','Dibuat','Oleh','Aksi'].map(h=>`<th style="padding:10px 12px;text-align:left;font-size:11px;color:rgba(255,255,255,.35);font-weight:600;text-transform:uppercase;white-space:nowrap">${h}</th>`).join('')}</tr></thead>
       <tbody>${list.map(c=>`<tr class="tr" style="border-bottom:1px solid rgba(255,255,255,.04)">
         <td style="padding:9px 12px"><span class="mono" style="font-size:12px;color:#f97316;font-weight:600">${esc(c.code)}</span><button onclick="copyT('${esc(c.code)}');toast('Disalin! 📋')" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);font-size:11px;margin-left:3px">📋</button></td>
         <td style="padding:9px 12px;font-size:12px;font-weight:600">${(c.productNames||[c.productName||'-']).map(n=>esc(n)).join('<br>')}</td>
-        <td style="padding:9px 12px;font-size:12px"><div style="font-weight:600;color:rgba(255,255,255,.8)">${esc(c.buyerName||'-')}</div>${c.email?`<div style="color:#60a5fa;font-size:11px">${esc(c.email)}</div>`:''}${c.orderId?`<div style="color:rgba(255,255,255,.3);font-size:10px">#${esc(c.orderId)}</div>`:''}</td>
+        <td style="padding:9px 12px;font-size:12px"><div style="font-weight:600;color:rgba(255,255,255,.8)">${esc(c.buyerName||'-')}</div>${c.email?`<div style="color:#60a5fa;font-size:11px">${esc(c.email)}</div>`:`<div style="color:rgba(255,255,255,.25);font-size:11px">—</div>`}${c.orderId?`<div style="color:rgba(255,255,255,.3);font-size:10px">#${esc(c.orderId)}</div>`:''}</td>
         <td style="padding:9px 12px;font-size:13px;font-weight:600;color:#4ade80">${c.price?idr(c.price):'-'}</td>
-        <td style="padding:9px 12px">${c.used?`<span class="bg">✓ Terpakai</span>`:`<span class="bo">⏳ Belum</span>`}${c.isBulk?`<br><span style="font-size:10px;color:rgba(255,255,255,.3)">bulk</span>`:''}</td>
+        <td style="padding:9px 12px">${c.used?`<span class="bg">✓ Terpakai</span><br><span style="font-size:10px;color:rgba(255,255,255,.3)">${fmtD(c.usedAt)}</span>`:`<span class="bo">⏳ Belum</span>`}${c.isBulk?`<br><span style="font-size:10px;color:rgba(255,255,255,.25)">bulk</span>`:''}</td>
         <td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.3);white-space:nowrap">${fmtD(c.createdAt)}</td>
-        <td style="padding:9px 12px;font-size:11px;color:${c.used?'#4ade80':'rgba(255,255,255,.2)'};white-space:nowrap">${c.used?fmtD(c.usedAt):'-'}</td>
         <td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.4)">${esc(c.generatedBy||'-')}</td>
-        <td style="padding:9px 12px"><div style="display:flex;gap:5px">
-          ${can('send_email')&&c.email&&!c.used?`<button onclick="openMailto({email:'${esc(c.email)}',buyerName:'${esc(c.buyerName)}',code:'${esc(c.code)}',productNames:${JSON.stringify(c.productNames||[])},siteUrl:'${SITE_URL}'});toast('Membuka email...','blue')" style="background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.25);border-radius:7px;color:#60a5fa;font-size:11px;font-weight:600;cursor:pointer;padding:4px 8px">📧</button>`:''}
+        <td style="padding:9px 12px"><div style="display:flex;gap:5px;flex-wrap:wrap">
+          ${can('send_email')&&!c.used?`<button onclick="openSendEmailFromCode('${esc(c.code)}')" style="background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.25);border-radius:7px;color:#60a5fa;font-size:11px;font-weight:600;cursor:pointer;padding:4px 8px" title="Kirim Email">📧</button>`:''}
+          ${can('send_shopee')&&!c.used?`<button onclick="S.showShopMo=true;S.shopDat={code:'${esc(c.code)}',buyerName:'${esc(c.buyerName||'')}',productNames:${JSON.stringify(c.productNames||[c.productName||''])}};render()" style="background:rgba(238,77,45,.12);border:1px solid rgba(238,77,45,.25);border-radius:7px;color:#f87171;font-size:11px;font-weight:600;cursor:pointer;padding:4px 8px" title="Template Shopee">🛍</button>`:''}
           ${can('codes_delete')?`<button class="btn-dn" onclick="delCode('${esc(c.code)}')">🗑️</button>`:''}
         </div></td>
       </tr>`).join('')}</tbody>
@@ -659,14 +807,11 @@ function rCodes(){
 
 // ── EXPORT XLSX ───────────────────────────────────────────────────
 function expXLSX(){
-  loadData();
-  if(!S.codes.length){toast('Tidak ada data','info');return;}
+  loadData();if(!S.codes.length){toast('Tidak ada data','info');return;}
   const data=S.codes.map(c=>({'Kode':c.code,'Produk':(c.productNames||[c.productName||'-']).join(', '),'Pembeli':c.buyerName||'-','Email':c.email||'-','No. Order':c.orderId||'-','Harga (Rp)':idrR(c.price||0),'Status':c.used?'Terpakai':'Belum','Tipe':c.isBulk?'Bulk':'Single','Dibuat Oleh':c.generatedBy||'-','Tgl Generate':c.createdAt?new Date(c.createdAt).toLocaleString('id-ID'):'-','Tgl Digunakan':c.usedAt?new Date(c.usedAt).toLocaleString('id-ID'):'-','Catatan':c.notes||'-'}));
-  const used=S.codes.filter(c=>c.used);
-  const rev=used.reduce((a,c)=>a+idrR(c.price||0),0);
-  data.push({'Kode':`── TOTAL (${S.codes.length} kode) ──`,'Produk':'','Pembeli':`Terpakai: ${used.length}`,'Email':`Belum: ${S.codes.filter(c=>!c.used).length}`,'No. Order':'','Harga (Rp)':rev,'Status':`Konversi: ${S.codes.length?Math.round(used.length/S.codes.length*100):0}%`,'Tipe':'','Dibuat Oleh':'','Tgl Generate':'','Tgl Digunakan':'','Catatan':''});
-  const byP={};
-  S.codes.forEach(c=>(c.productNames||[c.productName||'Unknown']).forEach(n=>{if(!byP[n])byP[n]={t:0,u:0,r:0};byP[n].t++;if(c.used){byP[n].u++;byP[n].r+=idrR(c.price||0)/((c.productNames||[n]).length);}}));
+  const used=S.codes.filter(c=>c.used);const rev=used.reduce((a,c)=>a+idrR(c.price||0),0);
+  data.push({'Kode':`── TOTAL (${S.codes.length}) ──`,'Produk':'','Pembeli':`Terpakai: ${used.length}`,'Email':`Belum: ${S.codes.filter(c=>!c.used).length}`,'No. Order':'','Harga (Rp)':rev,'Status':`Konversi: ${S.codes.length?Math.round(used.length/S.codes.length*100):0}%`,'Tipe':'','Dibuat Oleh':'','Tgl Generate':'','Tgl Digunakan':'','Catatan':''});
+  const byP={};S.codes.forEach(c=>(c.productNames||[c.productName||'?']).forEach(n=>{if(!byP[n])byP[n]={t:0,u:0,r:0};byP[n].t++;if(c.used){byP[n].u++;byP[n].r+=idrR(c.price||0)/((c.productNames||[n]).length);}}));
   const sum=Object.entries(byP).map(([n,d])=>({'Produk':n,'Total':d.t,'Terpakai':d.u,'Belum':d.t-d.u,'Est. Pendapatan (Rp)':Math.round(d.r),'Konversi (%)':d.t?Math.round(d.u/d.t*100):0}));
   const tK=Object.values(byP).reduce((a,d)=>a+d.t,0),tU=Object.values(byP).reduce((a,d)=>a+d.u,0);
   sum.push({'Produk':'── TOTAL ──','Total':tK,'Terpakai':tU,'Belum':tK-tU,'Est. Pendapatan (Rp)':Math.round(Object.values(byP).reduce((a,d)=>a+d.r,0)),'Konversi (%)':tK?Math.round(tU/tK*100):0});
@@ -674,10 +819,9 @@ function expXLSX(){
   const ws1=XLSX.utils.json_to_sheet(data);const ws2=XLSX.utils.json_to_sheet(sum);
   ws1['!cols']=[{wch:22},{wch:28},{wch:18},{wch:26},{wch:14},{wch:14},{wch:12},{wch:10},{wch:14},{wch:22},{wch:22},{wch:18}];
   ws2['!cols']=[{wch:28},{wch:10},{wch:10},{wch:10},{wch:22},{wch:14}];
-  XLSX.utils.book_append_sheet(wb,ws1,'Daftar Kode');XLSX.utils.book_append_sheet(wb,ws2,'Ringkasan Produk');
-  const d=new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-');
-  XLSX.writeFile(wb,`Bintangstore_${d}.xlsx`);
-  addLog('📥','Export Excel',`${S.codes.length} kode`);toast('Excel berhasil didownload! 📥');
+  XLSX.utils.book_append_sheet(wb,ws1,'Daftar Kode');XLSX.utils.book_append_sheet(wb,ws2,'Ringkasan');
+  XLSX.writeFile(wb,`Bintangstore_${new Date().toLocaleDateString('id-ID').replace(/\//g,'-')}.xlsx`);
+  addLog('📥','Export Excel',`${S.codes.length} kode`);toast('Excel didownload! 📥');
 }
 
 // ── REPORT ────────────────────────────────────────────────────────
@@ -693,33 +837,25 @@ function getRD(){
   return{from,to};
 }
 function fRng(codes,useUsed=false){
-  const{from,to}=getRD();
-  if(!from&&S.rng!=='custom')return codes;
+  const{from,to}=getRD();if(!from&&S.rng!=='custom')return codes;
   return codes.filter(c=>{const d=new Date((useUsed?(c.usedAt||c.createdAt):c.createdAt)||0);return(!from||d>=from)&&(!to||d<=to);});
 }
-
 function rReport(){
   loadData();
   const rngs=[{id:'7d',lbl:'7 Hari'},{id:'30d',lbl:'30 Hari'},{id:'90d',lbl:'90 Hari'},{id:'thisMonth',lbl:'Bulan Ini'},{id:'lastMonth',lbl:'Bulan Lalu'},{id:'all',lbl:'Semua'},{id:'custom',lbl:'Custom'}];
-  const aU=S.codes.filter(c=>c.used);
-  const rC=fRng(S.codes),rU=fRng(aU,true);
+  const aU=S.codes.filter(c=>c.used);const rC=fRng(S.codes);const rU=fRng(aU,true);
   const rev=rU.reduce((a,c)=>a+idrR(c.price||0),0);
   const todRev=aU.filter(c=>{const d=new Date(c.usedAt||0),t=new Date();return d.toDateString()===t.toDateString();}).reduce((a,c)=>a+idrR(c.price||0),0);
-  const byP={};
-  rC.forEach(c=>(c.productNames||[c.productName||'Unknown']).forEach(n=>{if(!byP[n])byP[n]={t:0,u:0,r:0};byP[n].t++;if(c.used){byP[n].u++;byP[n].r+=idrR(c.price||0)/((c.productNames||[n]).length);}}));
-  const{from:rF,to:rT}=getRD();
-  const bF=rF||(S.codes.length?new Date(Math.min(...S.codes.map(c=>new Date(c.createdAt)))):new Date());
-  const bT=rT||new Date();
+  const byP={};rC.forEach(c=>(c.productNames||[c.productName||'?']).forEach(n=>{if(!byP[n])byP[n]={t:0,u:0,r:0};byP[n].t++;if(c.used){byP[n].u++;byP[n].r+=idrR(c.price||0)/((c.productNames||[n]).length);}}));
+  const{from:rF,to:rT}=getRD();const bF=rF||(S.codes.length?new Date(Math.min(...S.codes.map(c=>new Date(c.createdAt)))):new Date());const bT=rT||new Date();
   const diff=Math.max(1,Math.round((bT-bF)/(1000*60*60*24)));
   const mkK=(d)=>{if(diff<=31)return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});if(diff<=90){const w=new Date(d);w.setDate(d.getDate()-d.getDay());return'Mg '+w.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});}return d.toLocaleDateString('id-ID',{month:'short',year:'2-digit'});};
   const bd={};
   if(diff<=31){for(let i=0;i<=Math.min(diff,30);i++){const d=new Date(bF);d.setDate(d.getDate()+i);if(d<=bT)bd[mkK(d)]=0;}}
   else if(diff<=90){for(let i=0;i<diff+1;i+=7){const d=new Date(bF);d.setDate(d.getDate()+i);if(d<=bT)bd[mkK(d)]=0;}}
-  else{const c=new Date(bF.getFullYear(),bF.getMonth(),1);while(c<=bT){bd[mkK(c)]=0;c.setMonth(c.getMonth()+1);}}
+  else{const cur=new Date(bF.getFullYear(),bF.getMonth(),1);while(cur<=bT){bd[mkK(cur)]=0;cur.setMonth(cur.getMonth()+1);}}
   rU.forEach(c=>{if(c.usedAt){const k=mkK(new Date(c.usedAt));if(k in bd)bd[k]++;}});
-  const maxB=Math.max(...Object.values(bd),1);
-  const bE=Object.entries(bd);
-  const sE=bE.length>10?Math.ceil(bE.length/8):1;
+  const maxB=Math.max(...Object.values(bd),1);const bE=Object.entries(bd);const sE=bE.length>10?Math.ceil(bE.length/8):1;
   const rl=rngs.find(r=>r.id===S.rng)?.lbl||'';
   return `<div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
@@ -741,7 +877,7 @@ function rReport(){
       </div>
       <div class="card" style="padding:20px">
         <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">📊 Konversi (All Time)</div>
-        ${[['Terpakai',aU.length,'#22c55e'],['Belum',S.codes.filter(c=>!c.used).length,'#f97316']].map(([l,n,c])=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:13px;color:rgba(255,255,255,.6)">${l}</span><span style="font-size:13px;font-weight:700;color:${c}">${n}</span></div><div style="height:7px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden"><div style="height:100%;background:${c};border-radius:4px;width:${S.codes.length?(n/S.codes.length*100):0}%"></div></div></div>`).join('')}
+        ${[['Terpakai',aU.length,'#22c55e'],['Belum',S.codes.filter(c=>!c.used).length,'#f97316']].map(([l,n,cl])=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:13px;color:rgba(255,255,255,.6)">${l}</span><span style="font-size:13px;font-weight:700;color:${cl}">${n}</span></div><div style="height:7px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden"><div style="height:100%;background:${cl};border-radius:4px;width:${S.codes.length?(n/S.codes.length*100):0}%"></div></div></div>`).join('')}
       </div>
     </div>
     <div class="card" style="padding:20px;margin-bottom:16px">
@@ -761,12 +897,12 @@ function rReport(){
 // ── LOG ───────────────────────────────────────────────────────────
 function rLog(){
   const logs=DB.get('activity_log')||[];
-  const cats=[{id:'all',lbl:'Semua'},{id:'login',lbl:'Login'},{id:'generate',lbl:'Generate'},{id:'bulk',lbl:'Bulk'},{id:'export',lbl:'Export'},{id:'hapus',lbl:'Hapus'},{id:'produk',lbl:'Produk'}];
+  const cats=[{id:'all',lbl:'Semua'},{id:'login',lbl:'Login'},{id:'generate',lbl:'Generate'},{id:'bulk',lbl:'Bulk'},{id:'email',lbl:'Email'},{id:'export',lbl:'Export'},{id:'hapus',lbl:'Hapus'}];
   const fil=S.logFilter==='all'?logs:logs.filter(l=>l.action.toLowerCase().includes(S.logFilter));
   return `<div>
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px">
       <h2 style="font-size:17px;font-weight:700;margin:0">Log Aktivitas (${logs.length})</h2>
-      <button class="btn-dn" style="padding:7px 14px;font-size:13px" onclick="if(confirm('Hapus semua log?')){DB.set('activity_log',[]);render();toast('Log dihapus','info')}">🗑️ Hapus Semua</button>
+      <button class="btn-dn" style="padding:7px 14px;font-size:13px" onclick="if(confirm('Hapus semua log?')){DB.set('activity_log',[]);render();toast('Log dihapus','info')}">🗑️ Hapus</button>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">${cats.map(c=>`<button class="rbtn ${S.logFilter===c.id?'on':''}" onclick="S.logFilter='${c.id}';render()">${c.lbl}</button>`).join('')}</div>
     ${fil.length===0?`<div class="card" style="padding:60px;text-align:center;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:10px">📝</div>Belum ada log</div>`
@@ -776,61 +912,196 @@ function rLog(){
           <div style="font-size:13px;font-weight:600;color:#e8e8f0">${esc(l.action)}</div>
           ${l.detail?`<div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px;word-break:break-all">${esc(l.detail)}</div>`:''}
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:5px;align-items:center">
-            ${l.admin?`<span class="rb" style="font-size:10px;padding:2px 8px;background:rgba(249,115,22,.1);color:#fb923c;border:1px solid rgba(249,115,22,.2)">${l.role==='owner'?'👑':l.role==='admin'?'⚙️':'👤'} ${esc(l.admin)}</span>`:''}
+            ${l.admin?`<span class="rb" style="font-size:10px;padding:2px 8px;background:rgba(249,115,22,.1);color:#fb923c;border:1px solid rgba(249,115,22,.2)">👤 ${esc(l.admin)} · ${esc(l.role||'')}</span>`:''}
             ${l.device?`<span style="font-size:11px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:2px 8px">💻 ${esc(l.device)}</span>`:''}
           </div>
         </div>
         <div style="font-size:11px;color:rgba(255,255,255,.25);flex-shrink:0;white-space:nowrap;padding-top:2px">${fmtD(l.ts)}</div>
       </div>`).join('')}
-      ${fil.length>100?`<div style="padding:12px;text-align:center;font-size:12px;color:rgba(255,255,255,.3)">Menampilkan 100 dari ${fil.length} log</div>`:''}
+      ${fil.length>100?`<div style="padding:12px;text-align:center;font-size:12px;color:rgba(255,255,255,.3)">Menampilkan 100 dari ${fil.length}</div>`:''}
     </div>`}
   </div>`;
 }
 
 // ════════════════════════════════════════════════════════════════
-// USER MANAGEMENT
+// ROLE MANAGEMENT (FIX #3)
 // ════════════════════════════════════════════════════════════════
+function renderRoleMgmt(){
+  const roles=getRoles();
+  return `<div class="mo" onclick="if(event.target===this){S.showRoleMgmt=false;render()}">
+    <div class="card fi" style="width:100%;max-width:680px;padding:0;border-color:rgba(249,115,22,.2);margin-top:20px">
+      <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">🏷️</div>
+          <div><div style="font-weight:800;font-size:16px">Master Data Role</div><div style="font-size:12px;color:rgba(255,255,255,.4)">Kelola template hak akses per role</div></div>
+        </div>
+        <button onclick="S.showRoleMgmt=false;render()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:20px">✕</button>
+      </div>
+      <div style="padding:22px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <span style="font-size:14px;font-weight:600">${roles.length} Role Terdaftar</span>
+          <button class="btn-pr" style="padding:9px 16px;font-size:13px" onclick="openRoleForm(null)">+ Tambah Role</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          ${roles.map((role,i)=>`
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px 18px">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:36px;height:36px;border-radius:10px;background:${esc(role.color||'#f97316')};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🏷️</div>
+                <div>
+                  <div style="font-weight:700;font-size:15px">${esc(role.name)}</div>
+                  <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:2px">${countPerms(role.permissions)} hak akses aktif</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px">
+                <button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="openRoleForm(${i})">✏️ Edit</button>
+                <button class="btn-dn" onclick="delRole(${i})">🗑️</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              ${PERMS.flatMap(g=>g.items).filter(p=>role.permissions?.[p.key]).map(p=>`<span style="font-size:10px;background:rgba(34,197,94,.08);color:#4ade80;border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:1px 8px">${p.lbl}</span>`).join('')}
+            </div>
+          </div>`).join('')}
+        </div>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">
+          💡 Role adalah <strong style="color:#e8e8f0">template hak akses</strong>. Saat membuat user, pilih role sebagai starting point — hak akses user bisa disesuaikan lebih lanjut secara individual.
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function openRoleForm(idx){
+  S.editRoleIdx=idx;
+  if(idx===null){
+    S.roleForm={name:'',color:'#7c3aed',permissions:{...staffPerms()}};
+  } else {
+    const r=getRoles()[idx];
+    S.roleForm={name:r.name,color:r.color||'#7c3aed',permissions:{...(r.permissions||staffPerms())}};
+  }
+  S.showRoleForm=true;render();
+}
+
+function renderRoleForm(){
+  const f=S.roleForm;const isEdit=S.editRoleIdx!==null;
+  return `<div class="mo" onclick="if(event.target===this){S.showRoleForm=false;render()}">
+    <div class="card fi" style="width:100%;max-width:560px;padding:0;border-color:rgba(249,115,22,.2);margin-top:20px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column">
+      <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+        <div style="font-weight:800;font-size:16px">${isEdit?'✏️ Edit Role: '+esc(f.name):'+ Tambah Role Baru'}</div>
+        <button onclick="S.showRoleForm=false;render()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:20px">✕</button>
+      </div>
+      <div style="overflow-y:auto;flex:1;padding:22px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">NAMA ROLE *</label>
+            <input class="ifl" id="rf_name" placeholder="cth: Supervisor" value="${esc(f.name)}" style="font-size:14px;padding:10px 14px"/>
+          </div>
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">WARNA</label>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;padding-top:4px">
+              ${['#f97316','#2563eb','#7c3aed','#16a34a','#e11d48','#0891b2','#ca8a04','#374151'].map(c=>`<div onclick="S.roleForm.color='${c}';render()" style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer;border:3px solid ${f.color===c?'#fff':'transparent'};display:flex;align-items:center;justify-content:center">${f.color===c?'<span style="color:#fff;font-size:12px">✓</span>':''}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,.06);margin-bottom:16px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px">Hak Akses Template</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn-se" style="padding:4px 10px;font-size:11px" onclick="PERMS.flatMap(g=>g.items).forEach(p=>{if(p.key!=='user_management'&&p.key!=='role_management')S.roleForm.permissions[p.key]=true;});render()">✅ Semua</button>
+            <button class="btn-se" style="padding:4px 10px;font-size:11px" onclick="Object.keys(S.roleForm.permissions).forEach(k=>{S.roleForm.permissions[k]=false;});render()">❌ Reset</button>
+          </div>
+        </div>
+        ${PERMS.map(group=>`
+        <div class="pgroup">
+          <div class="pgtitle">${group.group}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+            ${group.items.map(p=>`<label class="ptog">
+              <input type="checkbox" ${f.permissions?.[p.key]?'checked':''} onchange="S.roleForm.permissions['${p.key}']=this.checked"/>
+              <span>${p.lbl}</span>
+            </label>`).join('')}
+          </div>
+        </div>`).join('')}
+        <div id="rf_err" style="display:none;color:#f87171;font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.08);border-radius:8px;border:1px solid rgba(239,68,68,.2)"></div>
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <button class="btn-se" style="flex:1" onclick="S.showRoleForm=false;render()">Batal</button>
+          <button class="btn-pr" style="flex:2" onclick="saveRole()">💾 Simpan Role</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function saveRole(){
+  const name=document.getElementById('rf_name')?.value.trim()||'';
+  const se=(m)=>{const e=document.getElementById('rf_err');if(e){e.textContent='⚠️ '+m;e.style.display='block';}};
+  if(!name){se('Nama role wajib diisi');return;}
+  // Read checkboxes
+  const perms={};
+  PERMS.flatMap(g=>g.items).forEach(p=>{
+    const el=document.querySelector(`input[onchange="S.roleForm.permissions['${p.key}']=this.checked"]`);
+    perms[p.key]=el?el.checked:(S.roleForm.permissions?.[p.key]||false);
+  });
+  const roles=getRoles();
+  if(S.editRoleIdx!==null){
+    const dup=roles.findIndex((r,i)=>r.name.toLowerCase()===name.toLowerCase()&&i!==S.editRoleIdx);
+    if(dup!==-1){se('Nama role sudah ada');return;}
+    roles[S.editRoleIdx]={...roles[S.editRoleIdx],name,color:S.roleForm.color,permissions:perms};
+    addLog('✏️','Edit role',name);toast('Role diperbarui!');
+  } else {
+    if(roles.find(r=>r.name.toLowerCase()===name.toLowerCase())){se('Nama role sudah ada');return;}
+    roles.push({id:'role_'+Date.now(),name,color:S.roleForm.color,permissions:perms});
+    addLog('🏷️','Tambah role',name);toast('Role berhasil ditambahkan!');
+  }
+  saveRoles(roles);S.showRoleForm=false;render();
+}
+
+function delRole(idx){
+  const roles=getRoles();
+  if(!confirm(`Hapus role "${roles[idx]?.name}"?`))return;
+  const name=roles[idx]?.name||'';
+  roles.splice(idx,1);saveRoles(roles);
+  addLog('🗑️','Hapus role',name);render();toast('Role dihapus','info');
+}
+
+// ── USER MANAGEMENT ───────────────────────────────────────────────
 function renderUserMgmt(){
-  const accs=getAccs();
+  const accs=getAccs();const roles=getRoles();
   return `<div class="mo" onclick="if(event.target===this){S.showUserMgmt=false;render()}">
     <div class="card fi" style="width:100%;max-width:680px;padding:0;border-color:rgba(249,115,22,.2);margin-top:20px">
       <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between">
         <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:36px;height:36px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">👥</div>
-          <div><div style="font-weight:800;font-size:16px">User Management</div><div style="font-size:12px;color:rgba(255,255,255,.4)">Kelola akun & hak akses admin</div></div>
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">👥</div>
+          <div><div style="font-weight:800;font-size:16px">User Management</div><div style="font-size:12px;color:rgba(255,255,255,.4)">${accs.length} akun terdaftar</div></div>
         </div>
         <button onclick="S.showUserMgmt=false;render()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:20px">✕</button>
       </div>
       <div style="padding:22px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <span style="font-size:14px;font-weight:600">${accs.length} Akun Terdaftar</span>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
           <button class="btn-pr" style="padding:9px 16px;font-size:13px" onclick="openUserForm(null)">+ Tambah User</button>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
           ${accs.map((acc,i)=>`
           <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px 18px">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px">
               <div style="display:flex;align-items:center;gap:10px">
-                <div style="width:40px;height:40px;border-radius:50%;background:${esc(acc.color||'#f97316')};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">
-                  ${acc.role==='owner'?'👑':acc.role==='admin'?'⚙️':'👤'}
-                </div>
+                <div style="width:40px;height:40px;border-radius:50%;background:${esc(acc.color||'#f97316')};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">👤</div>
                 <div>
                   <div style="font-weight:700;font-size:15px">${esc(acc.username)}</div>
-                  <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:2px">
-                    <span class="rb" style="font-size:11px;background:${esc(acc.color||'#f97316')}22;color:${esc(acc.color||'#f97316')};border:1px solid ${esc(acc.color||'#f97316')}44;padding:2px 8px">${esc(acc.role)}</span>
-                    <span style="margin-left:8px">${countPerms(acc.permissions)} hak akses aktif</span>
+                  <div style="display:flex;gap:6px;align-items:center;margin-top:3px">
+                    <span class="rb" style="font-size:11px;background:${esc(acc.color||'#f97316')}22;color:${esc(acc.color||'#f97316')};border:1px solid ${esc(acc.color||'#f97316')}44">${esc(acc.role)}</span>
+                    <span style="font-size:11px;color:rgba(255,255,255,.3)">${countPerms(acc.permissions)} hak akses</span>
+                    ${acc.id===S.me?.id?`<span style="font-size:10px;background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:1px 7px">Akun Anda</span>`:''}
                   </div>
                 </div>
               </div>
-              <div style="display:flex;gap:6px;flex-wrap:wrap">
-                <button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="openUserForm(${i})">✏️ Edit & Hak Akses</button>
-                ${acc.role!=='owner'&&acc.id!==S.me?.id?`<button class="btn-dn" onclick="delUser(${i})">🗑️</button>`:`<span style="font-size:11px;color:rgba(255,255,255,.2);padding:6px 12px">${acc.id===S.me?.id?'Akun Anda':'Protected'}</span>`}
+              <div style="display:flex;gap:6px">
+                <button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="openUserForm(${i})">✏️ Edit</button>
+                ${acc.id!==S.me?.id?`<button class="btn-dn" onclick="delUser(${i})">🗑️</button>`:``}
               </div>
             </div>
-            <!-- Permission summary -->
-            <div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap">
-              ${PERM_LABELS.flatMap(g=>g.items).filter(p=>acc.permissions?.[p.key]).slice(0,8).map(p=>`<span style="font-size:10px;background:rgba(34,197,94,.08);color:#4ade80;border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:1px 8px">${p.label}</span>`).join('')}
-              ${countPerms(acc.permissions)>8?`<span style="font-size:10px;color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1px 8px">+${countPerms(acc.permissions)-8} lainnya</span>`:''}
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              ${PERMS.flatMap(g=>g.items).filter(p=>acc.permissions?.[p.key]).slice(0,7).map(p=>`<span style="font-size:10px;background:rgba(34,197,94,.08);color:#4ade80;border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:1px 8px">${p.lbl}</span>`).join('')}
+              ${countPerms(acc.permissions)>7?`<span style="font-size:10px;color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1px 8px">+${countPerms(acc.permissions)-7} lagi</span>`:''}
             </div>
           </div>`).join('')}
         </div>
@@ -839,90 +1110,80 @@ function renderUserMgmt(){
   </div>`;
 }
 
-function countPerms(p){if(!p)return 0;return Object.values(p).filter(Boolean).length;}
-
 function openUserForm(idx){
   S.editUserIdx=idx;
+  const roles=getRoles();
   if(idx===null){
-    S.userForm={username:'',role:'staff',color:'#7c3aed',pwNew:'',pwConf:'',permissions:{...staffPerms()}};
+    const defRole=roles[2]||roles[0];
+    S.userForm={username:'',roleId:defRole?.id||'',color:defRole?.color||'#7c3aed',pwNew:'',pwConf:'',permissions:{...(defRole?.permissions||staffPerms())}};
   } else {
-    const acc=getAccs()[idx];
-    S.userForm={username:acc.username,role:acc.role,color:acc.color||'#7c3aed',pwNew:'',pwConf:'',permissions:{...((acc.permissions)||staffPerms())}};
+    const acc=getAccs()[idx];const matchRole=roles.find(r=>r.name===acc.role);
+    S.userForm={username:acc.username,roleId:matchRole?.id||'',color:acc.color||'#7c3aed',pwNew:'',pwConf:'',permissions:{...(acc.permissions||staffPerms())}};
   }
-  S.showUserForm=true;
-  render();
+  S.showUserForm=true;render();
 }
 
 function renderUserForm(){
-  const f=S.userForm;
-  const isEdit=S.editUserIdx!==null;
-  const accs=getAccs();
-  const editAcc=isEdit?accs[S.editUserIdx]:null;
-  const isOwner=editAcc?.role==='owner';
-
+  const f=S.userForm;const isEdit=S.editUserIdx!==null;
+  const roles=getRoles();
   return `<div class="mo" onclick="if(event.target===this){S.showUserForm=false;render()}">
-    <div class="card fi" style="width:100%;max-width:580px;padding:0;border-color:rgba(249,115,22,.2);margin-top:20px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column">
+    <div class="card fi" style="width:100%;max-width:560px;padding:0;border-color:rgba(249,115,22,.2);margin-top:20px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column">
       <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
         <div style="font-weight:800;font-size:16px">${isEdit?'✏️ Edit User: '+esc(f.username):'+ Tambah User Baru'}</div>
         <button onclick="S.showUserForm=false;render()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:20px">✕</button>
       </div>
       <div style="overflow-y:auto;flex:1;padding:22px">
-
-        <!-- Basic Info -->
-        <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">Informasi Akun</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
           <div>
             <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">USERNAME *</label>
-            <input class="ifl" id="uf_un" placeholder="Nama user" value="${esc(f.username)}" ${isOwner?'disabled':''} style="font-size:14px;padding:10px 14px${isOwner?';opacity:.5':''}"/>
+            <input class="ifl" id="uf_un" placeholder="Username" value="${esc(f.username)}" style="font-size:14px;padding:10px 14px"/>
           </div>
           <div>
             <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">ROLE</label>
-            <select class="ifl" id="uf_role" ${isOwner?'disabled':''} onchange="S.userForm.role=this.value;if(this.value==='admin'){S.userForm.permissions=allPerms();S.userForm.permissions.user_management=false;}else if(this.value==='staff'){S.userForm.permissions=staffPerms();}render()" style="font-size:14px;padding:10px 14px;-webkit-appearance:none;cursor:pointer${isOwner?';opacity:.5':''}">
-              <option value="owner" ${f.role==='owner'?'selected':''}>👑 Owner</option>
-              <option value="admin" ${f.role==='admin'?'selected':''}>⚙️ Admin</option>
-              <option value="staff" ${f.role==='staff'?'selected':''}>👤 Staff</option>
+            <select class="ifl-sel" id="uf_role" onchange="const r=getRoles().find(x=>x.id===this.value);if(r){S.userForm.roleId=r.id;S.userForm.color=r.color;S.userForm.permissions={...r.permissions};}render()" style="font-size:14px;padding:10px 14px">
+              ${roles.map(r=>`<option value="${esc(r.id)}" ${f.roleId===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}
+              <option value="" ${!f.roleId?'selected':''}>-- Custom --</option>
             </select>
           </div>
         </div>
         <div style="margin-bottom:14px">
           <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">WARNA AKUN</label>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            ${['#f97316','#2563eb','#7c3aed','#16a34a','#e11d48','#0891b2','#ca8a04','#374151'].map(c=>`<div onclick="S.userForm.color='${c}';render()" style="width:32px;height:32px;border-radius:50%;background:${c};cursor:pointer;border:3px solid ${f.color===c?'#fff':'transparent'};transition:border .15s;display:flex;align-items:center;justify-content:center">${f.color===c?'<span style="color:#fff;font-size:14px">✓</span>':''}</div>`).join('')}
+            ${['#f97316','#2563eb','#7c3aed','#16a34a','#e11d48','#0891b2','#ca8a04','#374151'].map(c=>`<div onclick="S.userForm.color='${c}';render()" style="width:30px;height:30px;border-radius:50%;background:${c};cursor:pointer;border:3px solid ${f.color===c?'#fff':'transparent'};display:flex;align-items:center;justify-content:center">${f.color===c?'<span style="color:#fff;font-size:12px">✓</span>':''}</div>`).join('')}
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
           <div>
-            <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">${isEdit?'PASSWORD BARU (kosongkan = tidak diubah)':'PASSWORD *'}</label>
-            <input class="ifl" id="uf_pw" type="password" placeholder="${isEdit?'Kosongkan jika tidak diubah':'Min. 6 karakter'}" style="font-size:14px;padding:10px 14px"/>
+            <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">${isEdit?'PASSWORD BARU (kosong = tidak berubah)':'PASSWORD *'}</label>
+            <input class="ifl" id="uf_pw" type="password" placeholder="${isEdit?'Opsional':'Min. 6 karakter'}" style="font-size:14px;padding:10px 14px"/>
           </div>
           <div>
-            <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">KONFIRMASI PASSWORD</label>
+            <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px">KONFIRMASI</label>
             <input class="ifl" id="uf_pwc" type="password" placeholder="Ulangi password" style="font-size:14px;padding:10px 14px"/>
           </div>
         </div>
-
-        <!-- Permissions -->
-        <div style="height:1px;background:rgba(255,255,255,.06);margin-bottom:18px"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px">Hak Akses</div>
-          <div style="display:flex;gap:8px">
-            <button class="btn-se" style="padding:5px 12px;font-size:12px" onclick="PERM_LABELS.flatMap(g=>g.items).forEach(p=>{if(p.key!=='user_management')S.userForm.permissions[p.key]=true;});render()">✅ Aktifkan Semua</button>
-            <button class="btn-se" style="padding:5px 12px;font-size:12px" onclick="Object.keys(S.userForm.permissions).forEach(k=>{if(k!=='user_management')S.userForm.permissions[k]=false;});render()">❌ Nonaktifkan Semua</button>
+        <div style="height:1px;background:rgba(255,255,255,.06);margin-bottom:16px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px">Hak Akses Individual</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn-se" style="padding:4px 10px;font-size:11px" onclick="PERMS.flatMap(g=>g.items).forEach(p=>{S.userForm.permissions[p.key]=true;});render()">✅ Semua</button>
+            <button class="btn-se" style="padding:4px 10px;font-size:11px" onclick="Object.keys(S.userForm.permissions).forEach(k=>{S.userForm.permissions[k]=false;});render()">❌ Reset</button>
           </div>
         </div>
-        ${PERM_LABELS.map(group=>`
+        <div style="font-size:12px;color:rgba(249,115,22,.7);margin-bottom:12px;padding:8px 12px;background:rgba(249,115,22,.06);border-radius:8px;border:1px solid rgba(249,115,22,.15)">
+          💡 Pilih role di atas untuk mengisi hak akses otomatis, lalu ubah sesuai kebutuhan.
+        </div>
+        ${PERMS.map(group=>`
         <div class="pgroup">
-          <div class="pgroup-title">${group.group}</div>
+          <div class="pgtitle">${group.group}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
-            ${group.items.map(p=>`
-            <label class="ptog">
-              <input type="checkbox" ${f.permissions?.[p.key]?'checked':''} ${p.key==='user_management'&&f.role!=='owner'?'disabled':''} onchange="S.userForm.permissions['${p.key}']=this.checked" style="accent-color:#f97316;width:16px;height:16px;cursor:pointer;flex-shrink:0"/>
-              <span class="ptog-label">${p.label}${p.key==='user_management'?` <span style="font-size:10px;color:rgba(255,255,255,.25)">(Owner only)</span>`:''}</span>
+            ${group.items.map(p=>`<label class="ptog">
+              <input type="checkbox" ${f.permissions?.[p.key]?'checked':''} onchange="S.userForm.permissions['${p.key}']=this.checked"/>
+              <span>${p.lbl}</span>
             </label>`).join('')}
           </div>
         </div>`).join('')}
-
-        <div id="uf_err" style="display:none;color:#f87171;font-size:13px;margin-bottom:12px;padding:10px 14px;background:rgba(239,68,68,.08);border-radius:8px;border:1px solid rgba(239,68,68,.2)"></div>
+        <div id="uf_err" style="display:none;color:#f87171;font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.08);border-radius:8px;border:1px solid rgba(239,68,68,.2)"></div>
         <div style="display:flex;gap:10px;margin-top:4px">
           <button class="btn-se" style="flex:1" onclick="S.showUserForm=false;render()">Batal</button>
           <button class="btn-pr" style="flex:2" onclick="saveUser()">💾 Simpan User</button>
@@ -936,68 +1197,44 @@ async function saveUser(){
   const un=document.getElementById('uf_un')?.value.trim()||'';
   const pw=document.getElementById('uf_pw')?.value||'';
   const pwc=document.getElementById('uf_pwc')?.value||'';
-  const role=document.getElementById('uf_role')?.value||S.userForm.role;
+  const roleId=document.getElementById('uf_role')?.value||S.userForm.roleId;
   const isEdit=S.editUserIdx!==null;
-  const showErr=(m)=>{const e=document.getElementById('uf_err');if(e){e.textContent='⚠️ '+m;e.style.display='block';}};
-
-  if(!isEdit||un){
-    if(!un){showErr('Username wajib diisi');return;}
-    if(un.length<2){showErr('Username minimal 2 karakter');return;}
-  }
-  if(!isEdit&&!pw){showErr('Password wajib diisi untuk user baru');return;}
-  if(pw&&pw.length<6){showErr('Password minimal 6 karakter');return;}
-  if(pw&&pw!==pwc){showErr('Konfirmasi password tidak cocok');return;}
-
+  const se=(m)=>{const e=document.getElementById('uf_err');if(e){e.textContent='⚠️ '+m;e.style.display='block';}};
+  if(!un){se('Username wajib diisi');return;}
+  if(un.length<2){se('Username minimal 2 karakter');return;}
+  if(!isEdit&&!pw){se('Password wajib diisi untuk user baru');return;}
+  if(pw&&pw.length<6){se('Password minimal 6 karakter');return;}
+  if(pw&&pw!==pwc){se('Konfirmasi password tidak cocok');return;}
   const accs=getAccs();
-  // Check duplicate username
-  const dupIdx=accs.findIndex((a,i)=>a.username.toLowerCase()===un.toLowerCase()&&i!==S.editUserIdx);
-  if(dupIdx!==-1){showErr('Username sudah digunakan');return;}
-
-  // Read permissions from checkboxes directly
+  const dup=accs.findIndex((a,i)=>a.username.toLowerCase()===un.toLowerCase()&&i!==S.editUserIdx);
+  if(dup!==-1){se('Username sudah digunakan');return;}
+  const roles=getRoles();
+  const selRole=roles.find(r=>r.id===roleId);
+  // Read permissions from checkboxes
   const perms={};
-  PERM_LABELS.flatMap(g=>g.items).forEach(p=>{
-    const el=document.querySelector(`input[onchange="S.userForm.permissions['${p.key}']=this.checked"]`);
-    perms[p.key]=el?el.checked:(S.userForm.permissions?.[p.key]||false);
+  PERMS.flatMap(g=>g.items).forEach(p=>{
+    const el=document.querySelector(`#uf_err`)?.closest('.card, .mo > div')?.querySelector(`input[onchange="S.userForm.permissions['${p.key}']=this.checked"]`);
+    const allEls=document.querySelectorAll(`input[onchange="S.userForm.permissions['${p.key}']=this.checked"]`);
+    const lastEl=allEls[allEls.length-1];
+    perms[p.key]=lastEl?lastEl.checked:(S.userForm.permissions?.[p.key]||false);
   });
-  // Owner always has user_management
-  if(role==='owner')perms.user_management=true;
-
   if(isEdit){
     const acc=accs[S.editUserIdx];
-    if(un)acc.username=un;
-    acc.role=role;
-    acc.color=S.userForm.color;
-    acc.permissions=perms;
+    acc.username=un;acc.role=selRole?.name||'Custom';acc.color=S.userForm.color;acc.permissions=perms;
     if(pw)acc.pwHash=await sha256(pw);
-    addLog('✏️','Edit user',`${acc.username} — role: ${role}`);
-    toast('User berhasil diperbarui!');
+    addLog('✏️','Edit user',`${un} — role: ${acc.role}`);toast('User diperbarui!');
   } else {
-    const newAcc={
-      id:'acc_'+Date.now(),
-      username:un,
-      role,
-      color:S.userForm.color,
-      pwHash:await sha256(pw),
-      permissions:perms,
-    };
-    accs.push(newAcc);
-    addLog('👤','Tambah user',`${un} — role: ${role}`);
-    toast('User berhasil ditambahkan!');
+    accs.push({id:'acc_'+Date.now(),username:un,role:selRole?.name||'Custom',color:S.userForm.color,pwHash:await sha256(pw),permissions:perms});
+    addLog('👤','Tambah user',`${un} — role: ${selRole?.name||'Custom'}`);toast('User ditambahkan!');
   }
-
-  saveAccs(accs);
-  S.showUserForm=false;
-  render();
+  saveAccs(accs);S.showUserForm=false;render();
 }
 
 function delUser(idx){
-  if(!confirm('Hapus user ini? Tindakan ini tidak bisa dibatalkan.'))return;
-  const accs=getAccs();
-  const name=accs[idx]?.username||'';
-  accs.splice(idx,1);
-  saveAccs(accs);
-  addLog('🗑️','Hapus user',name);
-  render();toast('User dihapus','info');
+  if(!confirm('Hapus user ini?'))return;
+  const accs=getAccs();const name=accs[idx]?.username||'';
+  accs.splice(idx,1);saveAccs(accs);
+  addLog('🗑️','Hapus user',name);render();toast('User dihapus','info');
 }
 
 // ── CHANGE OWN PW ─────────────────────────────────────────────────
@@ -1016,17 +1253,11 @@ function renderCPwMo(){
 async function doCPw(){
   const o=document.getElementById('cpO')?.value||'',n=document.getElementById('cpN')?.value||'',c=document.getElementById('cpC')?.value||'';
   const se=(m)=>{const e=document.getElementById('cpE');if(e){e.textContent='⚠️ '+m;e.style.display='block';}};
-  if(!o||!n||!c){se('Semua field wajib diisi');return;}
-  if(n.length<6){se('Minimal 6 karakter');return;}
-  if(n!==c){se('Konfirmasi tidak cocok');return;}
-  const accs=getAccs();
-  const me=accs.find(a=>a.id===S.me?.id);
-  if(!me){se('Akun tidak ditemukan');return;}
+  if(!o||!n||!c){se('Semua field wajib diisi');return;}if(n.length<6){se('Minimal 6 karakter');return;}if(n!==c){se('Konfirmasi tidak cocok');return;}
+  const accs=getAccs();const me=accs.find(a=>a.id===S.me?.id);if(!me){se('Akun tidak ditemukan');return;}
   if(await sha256(o)!==me.pwHash){se('Password lama salah');return;}
-  me.pwHash=await sha256(n);
-  saveAccs(accs);
-  addLog('🔑','Ganti password',S.me?.un);
-  S.showCPw=false;render();toast('Password berhasil diubah! 🔒');
+  me.pwHash=await sha256(n);saveAccs(accs);
+  addLog('🔑','Ganti password',S.me?.un);S.showCPw=false;render();toast('Password berhasil diubah! 🔒');
 }
 
 // ── PRODUCT MODAL ─────────────────────────────────────────────────
@@ -1062,8 +1293,7 @@ function saveProd(){
 function delProd(i){
   if(!confirm('Hapus produk ini?'))return;
   const name=S.products[i]?.name||'';
-  S.products=S.products.filter((_,idx)=>idx!==i);
-  DB.set('products',S.products);addLog('🗑️','Hapus produk',name);render();toast('Produk dihapus','info');
+  S.products=S.products.filter((_,idx)=>idx!==i);DB.set('products',S.products);addLog('🗑️','Hapus produk',name);render();toast('Produk dihapus','info');
 }
 function delCode(code){
   if(!confirm('Hapus kode ini?'))return;
