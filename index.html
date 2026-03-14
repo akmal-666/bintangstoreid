@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redeem Akses — Bintangstore ID</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif}
+.mono{font-family:'JetBrains Mono',monospace}
+body{background:#0a0a0f;color:#e8e8f0;min-height:100vh;display:flex;flex-direction:column}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#f97316;border-radius:4px}
+.grid-bg{background-image:linear-gradient(rgba(249,115,22,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,.04) 1px,transparent 1px);background-size:40px 40px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px}
+.btn-primary{background:linear-gradient(135deg,#f97316,#ea580c);border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;transition:all .2s;padding:12px 24px;font-size:15px;width:100%}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(249,115,22,.4)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-secondary{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#e8e8f0;font-weight:600;cursor:pointer;transition:all .2s;padding:12px 24px;font-size:15px;width:100%}
+.btn-secondary:hover{background:rgba(255,255,255,.1);border-color:rgba(249,115,22,.4)}
+.input-code{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.1);border-radius:12px;color:#e8e8f0;padding:18px;font-size:24px;width:100%;text-align:center;letter-spacing:6px;text-transform:uppercase;outline:none;transition:border-color .2s;font-family:'JetBrains Mono',monospace}
+.input-code:focus{border-color:rgba(249,115,22,.7);box-shadow:0 0 0 4px rgba(249,115,22,.08)}
+.input-code::placeholder{color:rgba(255,255,255,.2);letter-spacing:4px}
+.err-box{color:#f87171;font-size:14px;padding:10px 14px;background:rgba(239,68,68,.08);border-radius:8px;border:1px solid rgba(239,68,68,.2);display:none}
+.warn-box{color:#fb923c;font-size:13px;padding:10px 14px;background:rgba(249,115,22,.08);border-radius:8px;border:1px solid rgba(249,115,22,.2)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .35s ease forwards}
+@keyframes pulse{0%,100%{box-shadow:0 0 20px rgba(249,115,22,.3)}50%{box-shadow:0 0 45px rgba(249,115,22,.65)}}
+.pulse{animation:pulse 2s ease-in-out infinite}
+nav{background:rgba(10,10,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 24px;position:sticky;top:0;z-index:50}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-text{font-weight:800;font-size:17px;letter-spacing:-.5px}
+.logo-text span{color:#f97316;font-weight:400}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.download-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:left}
+.rate-bar{height:3px;background:rgba(249,115,22,.2);border-radius:2px;overflow:hidden;margin-top:6px}
+.rate-fill{height:100%;background:#f97316;border-radius:2px;transition:width .3s}
+footer{text-align:center;padding:20px;font-size:12px;color:rgba(255,255,255,.2);border-top:1px solid rgba(255,255,255,.05)}
+
+/* CS floating button */
+.cs-fab{position:fixed;bottom:24px;right:24px;z-index:100}
+.cs-main-btn{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ea580c);border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(249,115,22,.5);transition:transform .2s;display:flex;align-items:center;justify-content:center}
+.cs-main-btn:hover{transform:scale(1.08)}
+.cs-menu{position:absolute;bottom:62px;right:0;display:flex;flex-direction:column;gap:8px;align-items:flex-end;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .25s}
+.cs-menu.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.cs-item{display:flex;align-items:center;gap:8px;text-decoration:none;white-space:nowrap}
+.cs-item-btn{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.4);transition:transform .15s;flex-shrink:0}
+.cs-item-btn:hover{transform:scale(1.1)}
+.cs-label{background:rgba(15,15,20,.9);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600;color:#e8e8f0;backdrop-filter:blur(8px)}
+.cs-shopee{background:linear-gradient(135deg,#ee4d2d,#d03f22)}
+.cs-wa{background:linear-gradient(135deg,#25d366,#128c7e)}
+.cs-tg{background:linear-gradient(135deg,#2aabee,#1e8bc3)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-icon">⭐</div>
+      <span class="logo-text">Bintangstore<span> ID</span></span>
+    </div>
+  </div>
+</nav>
+
+<main class="grid-bg">
+  <div id="root" style="width:100%;max-width:480px"></div>
+</main>
+
+<footer>© 2025 Bintangstore ID &nbsp;·&nbsp; Semua transaksi dilindungi enkripsi</footer>
+
+<!-- CS Floating Button -->
+<div class="cs-fab" id="csFab">
+  <div class="cs-menu" id="csMenu">
+    <a class="cs-item" href="SHOPEE_CHAT_URL" target="_blank" rel="noopener" id="csShopeeLink">
+      <span class="cs-label">Chat Shopee</span>
+      <button class="cs-item-btn cs-shopee">🛍</button>
+    </a>
+    <a class="cs-item" href="https://wa.me/NOMOR_WA" target="_blank" rel="noopener" id="csWaLink">
+      <span class="cs-label">WhatsApp</span>
+      <button class="cs-item-btn cs-wa">💬</button>
+    </a>
+    <a class="cs-item" href="https://t.me/USERNAME_TG" target="_blank" rel="noopener" id="csTgLink">
+      <span class="cs-label">Telegram</span>
+      <button class="cs-item-btn cs-tg">✈️</button>
+    </a>
+  </div>
+  <button class="cs-main-btn" onclick="toggleCS()" id="csFabBtn" title="Hubungi Kami">🎧</button>
+</div>
+
+<script>
+// ── CONFIG — ganti sesuai akun Anda ──────────────────────────────
+const SITE_URL   = 'https://bintangstore.id';
+const CS_CONFIG  = {
+  shopee   : 'https://shopee.co.id/shop/SHOPEE_ID/chat', // URL chat toko Shopee
+  whatsapp : '6281234567890',   // nomor WA tanpa +, contoh: 6281234567890
+  telegram : 'bintangstoreid',  // username Telegram tanpa @
+};
+const MAX_TRIES  = 5;
+const COOLDOWN_S = 600;
+
+// ── Apply CS config ───────────────────────────────────────────────
+document.getElementById('csShopeeLink').href = CS_CONFIG.shopee;
+document.getElementById('csWaLink').href     = 'https://wa.me/' + CS_CONFIG.whatsapp + '?text=' + encodeURIComponent('Halo Bintangstore ID, saya butuh bantuan');
+document.getElementById('csTgLink').href     = 'https://t.me/' + CS_CONFIG.telegram;
+
+function toggleCS(){
+  const m = document.getElementById('csMenu');
+  m.classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if(!document.getElementById('csFab').contains(e.target))
+    document.getElementById('csMenu').classList.remove('open');
+});
+
+// ── Security: HTML Escape ─────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// ── Storage (localStorage shared dengan admin.html) ───────────────
+const DB = {
+  get(k){ try{ const v=localStorage.getItem('bsid_'+k); return v?JSON.parse(v):null; }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem('bsid_'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+// ── Rate limiter ──────────────────────────────────────────────────
+const RL = {
+  key:'rl_attempts',
+  get(){ try{ return JSON.parse(localStorage.getItem(this.key))||{count:0,until:0}; }catch(e){ return {count:0,until:0}; } },
+  save(d){ try{ localStorage.setItem(this.key,JSON.stringify(d)); }catch(e){} },
+  isBlocked(){ const d=this.get(); return d.until&&Date.now()<d.until; },
+  secondsLeft(){ const d=this.get(); return Math.max(0,Math.ceil((d.until-Date.now())/1000)); },
+  fail(){ const d=this.get(); d.count=(d.count||0)+1; if(d.count>=MAX_TRIES){d.until=Date.now()+COOLDOWN_S*1000;d.count=0;} this.save(d); },
+  reset(){ this.save({count:0,until:0}); },
+  remaining(){ const d=this.get(); return Math.max(0,MAX_TRIES-d.count); }
+};
+
+// ── State ─────────────────────────────────────────────────────────
+let STATE = { view:'form', products:[], codeData:null };
+
+// ── Render ────────────────────────────────────────────────────────
+function render(){ document.getElementById('root').innerHTML = STATE.view==='result' ? renderResult() : renderForm(); }
+
+function renderForm(){
+  const blocked=RL.isBlocked(), rem=RL.remaining();
+  return `<div class="fade-in" style="text-align:center">
+    <div style="font-size:48px;margin-bottom:16px">🔑</div>
+    <h1 style="font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:10px">Redeem Akses</h1>
+    <p style="color:rgba(255,255,255,.45);font-size:15px;margin-bottom:32px;line-height:1.6">Masukkan kode akses yang diberikan admin<br>untuk mengunduh produk Anda</p>
+    <div class="card" style="padding:28px;box-shadow:0 0 12px rgba(249,115,22,.15)">
+      <input id="codeInput" class="input-code" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19"
+        autocomplete="off" spellcheck="false" ${blocked?'disabled':''}
+        oninput="onCodeInput(this)" onkeydown="if(event.key==='Enter')verify()" style="margin-bottom:14px"/>
+      ${blocked?`<div class="warn-box" style="margin-bottom:14px;text-align:center">🔒 Terlalu banyak percobaan. Coba lagi dalam <strong id="countdown">${RL.secondsLeft()}</strong> detik</div>`
+        :rem<MAX_TRIES&&rem>0?`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px"><span>Sisa percobaan</span><span>${rem} / ${MAX_TRIES}</span></div><div class="rate-bar"><div class="rate-fill" style="width:${rem/MAX_TRIES*100}%"></div></div></div>`:''}
+      <div class="err-box" id="errBox" style="margin-bottom:14px"></div>
+      <button class="btn-primary" onclick="verify()" ${blocked?'disabled':''}>Verifikasi Kode →</button>
+    </div>
+    <div style="margin-top:18px;padding:14px 20px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;font-size:13px;color:rgba(255,255,255,.4);line-height:1.6">
+      🎧 Butuh bantuan? Klik tombol <strong style="color:#f97316">CS</strong> di pojok kanan bawah untuk menghubungi kami via Shopee, WhatsApp, atau Telegram.
+    </div>
+  </div>`;
+}
+
+function renderResult(){
+  const prods=STATE.products;
+  return `<div class="fade-in" style="text-align:center">
+    <div style="width:64px;height:64px;background:rgba(34,197,94,.15);border:2px solid rgba(34,197,94,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px">✓</div>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Kode Valid!</h2>
+    <p style="color:rgba(255,255,255,.45);font-size:14px;margin-bottom:26px">${prods.length>1?prods.length+' produk tersedia untuk diunduh':'Produk berhasil diverifikasi'}</p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      ${prods.map((p,i)=>`
+      <div class="download-card">
+        ${prods.length>1?`<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Produk ${i+1}</div>`:''}
+        <div style="font-size:17px;font-weight:700;color:#f97316;margin-bottom:12px">${esc(p.name)}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="${esc(p.driveLink)}" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
+            <button class="btn-primary ${prods.length===1?'pulse':''}" style="font-size:15px;padding:14px">⬇️ &nbsp;Download ${esc(p.name)}</button>
+          </a>
+          ${p.tutorialLink?`<a href="${esc(p.tutorialLink)}" target="_blank" rel="noopener noreferrer" style="text-decoration:none"><button class="btn-secondary" style="font-size:14px;padding:12px">📖 &nbsp;Tutorial Instalasi</button></a>`:''}
+        </div>
+      </div>`).join('')}
+    </div>
+    <button class="btn-secondary" style="margin-top:16px" onclick="STATE.view='form';render()">← Redeem Kode Lain</button>
+    <div style="margin-top:14px;padding:12px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;font-size:12px;color:rgba(255,255,255,.35)">
+      Ada kendala? Hubungi kami via tombol CS di pojok kanan bawah 🎧
+    </div>
+  </div>`;
+}
+
+function onCodeInput(el){
+  let raw=el.value.replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,16);
+  let fmt=''; for(let i=0;i<raw.length;i++){if(i>0&&i%4===0)fmt+='-';fmt+=raw[i];} el.value=fmt;
+  document.getElementById('errBox').style.display='none';
+}
+
+function showErr(msg){ const el=document.getElementById('errBox'); if(el){el.textContent='⚠️ '+msg;el.style.display='block';} }
+
+function verify(){
+  if(RL.isBlocked()) return;
+  const code=(document.getElementById('codeInput')?.value||'').trim().toUpperCase();
+  if(!code){ showErr('Masukkan kode akses terlebih dahulu'); return; }
+  if(code.replace(/-/g,'').length!==16){ showErr('Format kode tidak valid'); return; }
+
+  // Always read fresh from localStorage
+  const allCodes    = DB.get('codes')    || [];
+  const allProducts = DB.get('products') || [];
+  const found       = allCodes.find(c=>c.code===code);
+
+  if(!found){ RL.fail(); if(RL.isBlocked()){showErr(`Terlalu banyak percobaan salah. Diblokir ${COOLDOWN_S/60} menit.`);render();return;} showErr(`Kode tidak valid. Sisa percobaan: ${RL.remaining()}`); render(); return; }
+  if(found.used){ RL.fail(); showErr('Kode ini sudah pernah digunakan sebelumnya'); return; }
+
+  const pids     = found.productIds||(found.productId?[found.productId]:[]);
+  const products = pids.map(id=>allProducts.find(p=>p.id===id)).filter(Boolean);
+  if(!products.length){ showErr('Produk tidak ditemukan — hubungi admin'); return; }
+
+  // Mark used & save back
+  const updated = allCodes.map(c=>c.code===code?{...c,used:true,usedAt:new Date().toISOString()}:c);
+  DB.set('codes', updated);
+
+  RL.reset();
+  STATE.view     = 'result';
+  STATE.products = products;
+  render();
+}
+
+// Countdown timer
+setInterval(()=>{ const el=document.getElementById('countdown'); if(el){ const s=RL.secondsLeft(); if(s<=0){render();return;} el.textContent=s; } }, 1000);
+
+render();
+</script>
+</body>
+</html>
