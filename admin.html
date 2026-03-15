@@ -99,6 +99,8 @@ const PERMS = [
     {key:'products_add',    lbl:'Tambah produk'},
     {key:'products_edit',   lbl:'Edit produk'},
     {key:'products_delete', lbl:'Hapus produk'},
+    {key:'products_import',  lbl:'Import produk dari Excel'},
+    {key:'products_export',  lbl:'Export produk ke Excel'},
   ]},
   {group:'Kode Akses',items:[
     {key:'generate',        lbl:'Generate kode (per order)'},
@@ -124,7 +126,7 @@ const PERMS = [
 function allPerms(){
   const p={};
   PERMS.flatMap(g=>g.items).forEach(i=>p[i.key]=true);
-  p.user_management=false; p.role_management=false;
+  p.user_management=false; p.role_management=false; p.products_import=true; p.products_export=true;
   return p;
 }
 function staffPerms(){
@@ -146,7 +148,7 @@ const DEFAULT_ACCOUNTS = [
   {id:'acc_3',username:'Staff',role:'Staff',color:'#7c3aed',pwHash:'10176e7b7b24d317acfcf8d2064cfd2f24e154f7b5a96603077d5ef813d6a6b6',permissions:staffPerms()},
 ];
 
-const SITE_URL='bintangstoreid.netlify.app';
+const SITE_URL='https://bintangstoreid.netlify.app';
 const SK='bsid_admin_session';
 const ST=4*60*60*1000;
 
@@ -244,6 +246,7 @@ const S={
   tab:'products',
   products:[],codes:[],
   showProdModal:false,editIdx:null,
+  showImportMo:false,importRows:[],importErr:'',importDone:false,
   // generate
   genSel:[],genOpen:false,genSearch:'',genRes:null,
   // bulk
@@ -281,6 +284,7 @@ function render(){
     renderNav()+
     `<div class="fi">${S.loggedIn?renderAdmin():renderLogin()}</div>`+
     (S.showProdModal?renderProdModal():'')+
+    (S.showImportMo?renderImportMo():'')+
     (S.showEmailMo?renderEmailMo():'')+
     (S.showSendEmailMo?renderSendEmailMo():'')+
     (S.showShopMo?renderShopMo():'')+
@@ -399,11 +403,16 @@ function scard(icon,label,val,color){
 // ── PRODUCTS ──────────────────────────────────────────────────────
 function rProd(){
   return `<div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px">
       <h2 style="font-size:17px;font-weight:700;margin:0">Produk (${S.products.length})</h2>
-      ${can('products_add')?`<button class="btn-pr" style="padding:10px 16px;font-size:13px" onclick="openProd(null)">+ Tambah</button>`:''}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        ${can('products_export')&&S.products.length>0?`<button class="btn-gr" style="padding:9px 16px;font-size:13px" onclick="expProds()">📥 Export Excel</button>`:''}
+        ${can('products_import')?`<button class="btn-se" style="padding:9px 16px;font-size:13px" onclick="dlTemplate()">📋 Download Template</button>`:''}
+        ${can('products_import')?`<button class="btn-em" style="padding:9px 16px;font-size:13px" onclick="S.showImportMo=true;S.importRows=[];S.importErr='';S.importDone=false;render()">📤 Import Excel</button>`:''}
+        ${can('products_add')?`<button class="btn-pr" style="padding:9px 16px;font-size:13px" onclick="openProd(null)">+ Tambah</button>`:''}
+      </div>
     </div>
-    ${S.products.length===0?`<div class="card" style="padding:60px;text-align:center;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:10px">📦</div>Belum ada produk</div>`
+    ${S.products.length===0?`<div class="card" style="padding:60px;text-align:center;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:10px">📦</div><div style="font-size:15px;font-weight:600;margin-bottom:8px">Belum ada produk</div><div style="font-size:13px">Tambah manual atau import dari Excel</div></div>`
     :`<div style="display:grid;gap:10px">${S.products.map((p,i)=>`
       <div class="card" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
         <div style="flex:1;min-width:180px">
@@ -412,7 +421,7 @@ function rProd(){
             ${p.category?`<span class="bo">${esc(p.category)}</span>`:''}
             ${p.price?`<span style="color:#4ade80;font-weight:600;font-size:13px">${idr(p.price)}</span>`:''}
           </div>
-          <div style="font-size:11px;color:rgba(255,255,255,.25);margin-top:4px">${p.driveLink?'📁 Drive OK':'<span style="color:#f87171">⚠ Belum ada link</span>'}${p.tutorialLink?' · 📖 Tutorial':''}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.25);margin-top:4px">${p.driveLink?'📁 Drive OK':'<span style="color:#f87171">⚠ Belum ada link drive</span>'}${p.tutorialLink?' · 📖 Tutorial':''}</div>
         </div>
         <div style="display:flex;gap:8px">
           ${can('products_edit')?`<button class="btn-se" style="padding:6px 12px;font-size:12px" onclick="openProd(${i})">✏️</button>`:''}
@@ -420,6 +429,207 @@ function rProd(){
         </div>
       </div>`).join('')}</div>`}
   </div>`;
+}
+
+// ── EXPORT PRODUCTS ───────────────────────────────────────────────
+function expProds(){
+  if(!S.products.length){toast('Tidak ada produk','info');return;}
+  const data=S.products.map((p,i)=>({
+    'No':i+1,
+    'Nama Produk':p.name,
+    'Kategori':p.category||'',
+    'Harga (Rp)':idrR(p.price||0),
+    'Link Download (Google Drive)':p.driveLink||'',
+    'Link Tutorial':p.tutorialLink||'',
+  }));
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.json_to_sheet(data);
+  ws['!cols']=[{wch:5},{wch:30},{wch:18},{wch:14},{wch:55},{wch:45}];
+  XLSX.utils.book_append_sheet(wb,ws,'Produk');
+  XLSX.writeFile(wb,`Produk_Bintangstore_${new Date().toLocaleDateString('id-ID').replace(/\//g,'-')}.xlsx`);
+  addLog('📥','Export produk',`${S.products.length} produk`);
+  toast('File produk berhasil didownload! 📥');
+}
+
+// ── DOWNLOAD TEMPLATE ─────────────────────────────────────────────
+function dlTemplate(){
+  const data=[
+    {'No':1,'Nama Produk':'Office 2021 Pro','Kategori':'Microsoft','Harga (Rp)':150000,'Link Download (Google Drive)':'https://drive.google.com/file/d/XXXX/view','Link Tutorial':'https://youtube.com/watch?v=XXXX'},
+    {'No':2,'Nama Produk':'Windows 11 Pro','Kategori':'Microsoft','Harga (Rp)':120000,'Link Download (Google Drive)':'https://drive.google.com/file/d/YYYY/view','Link Tutorial':''},
+    {'No':3,'Nama Produk':'Antivirus 1 Tahun','Kategori':'Antivirus','Harga (Rp)':80000,'Link Download (Google Drive)':'https://drive.google.com/file/d/ZZZZ/view','Link Tutorial':''},
+  ];
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.json_to_sheet(data);
+  ws['!cols']=[{wch:5},{wch:30},{wch:18},{wch:14},{wch:55},{wch:45}];
+  // Add note row
+  XLSX.utils.book_append_sheet(wb,ws,'Produk');
+  XLSX.writeFile(wb,'Template_Import_Produk.xlsx');
+  toast('Template didownload! Isi sesuai format lalu import 📋');
+}
+
+// ── IMPORT MODAL ──────────────────────────────────────────────────
+function renderImportMo(){
+  const rows=S.importRows;
+  const validRows=rows.filter(r=>r.nama&&r.drive);
+  const invalidRows=rows.filter(r=>!r.nama||!r.drive);
+  return `<div class="mo" onclick="if(event.target===this){S.showImportMo=false;render()}">
+    <div class="card fi" style="width:100%;max-width:680px;padding:0;border-color:rgba(37,99,235,.3);margin-top:20px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column">
+      <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">📤</div>
+          <div><div style="font-weight:800;font-size:16px">Import Produk dari Excel</div><div style="font-size:12px;color:rgba(255,255,255,.4)">Upload file .xlsx atau .csv</div></div>
+        </div>
+        <button onclick="S.showImportMo=false;render()" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:20px">✕</button>
+      </div>
+
+      <div style="overflow-y:auto;flex:1;padding:22px">
+        ${S.importDone?`
+        <!-- SUCCESS STATE -->
+        <div style="text-align:center;padding:20px 0">
+          <div style="font-size:48px;margin-bottom:16px">✅</div>
+          <div style="font-size:20px;font-weight:800;margin-bottom:8px;color:#4ade80">${validRows.length} Produk Berhasil Diimport!</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.4);margin-bottom:24px">Data produk telah tersimpan ke sistem</div>
+          <button class="btn-pr" style="padding:12px 28px" onclick="S.showImportMo=false;render()">Tutup & Lihat Produk</button>
+        </div>`:rows.length===0?`
+        <!-- UPLOAD STATE -->
+        <div style="margin-bottom:20px">
+          <div style="padding:14px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15);border-radius:10px;font-size:13px;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:16px">
+            <strong style="color:#e8e8f0">Format kolom yang dibutuhkan:</strong><br>
+            • <strong>Nama Produk</strong> — wajib diisi<br>
+            • <strong>Kategori</strong> — opsional<br>
+            • <strong>Harga (Rp)</strong> — angka tanpa titik/koma<br>
+            • <strong>Link Download (Google Drive)</strong> — wajib diisi<br>
+            • <strong>Link Tutorial</strong> — opsional
+            <br><br>
+            💡 Download template terlebih dahulu agar format sudah sesuai.
+          </div>
+          <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px;border:2px dashed rgba(37,99,235,.4);border-radius:14px;cursor:pointer;background:rgba(37,99,235,.04);transition:background .2s" onmouseover="this.style.background='rgba(37,99,235,.08)'" onmouseout="this.style.background='rgba(37,99,235,.04)'">
+            <div style="font-size:40px">📁</div>
+            <div style="font-size:15px;font-weight:600;color:#60a5fa">Klik atau drag file di sini</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.35)">.xlsx atau .csv · Maks 5MB</div>
+            <input type="file" accept=".xlsx,.xls,.csv" onchange="handleImportFile(this)" style="display:none"/>
+          </label>
+          ${S.importErr?`<div style="margin-top:12px;padding:10px 14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;color:#f87171;font-size:13px">⚠️ ${esc(S.importErr)}</div>`:''}
+        </div>
+        <div style="display:flex;justify-content:center">
+          <button class="btn-se" style="padding:10px 20px;font-size:13px" onclick="dlTemplate()">📋 Download Template Excel</button>
+        </div>`:`
+        <!-- PREVIEW STATE -->
+        <div style="margin-bottom:16px">
+          <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+            <div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:10px;text-align:center">
+              <div style="font-size:22px;font-weight:800;color:#4ade80">${validRows.length}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.5)">Siap diimport</div>
+            </div>
+            ${invalidRows.length>0?`<div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:#f87171">${invalidRows.length}</div><div style="font-size:12px;color:rgba(255,255,255,.5)">Baris dilewati (data tidak lengkap)</div></div>`:''}
+            <div style="flex:1;min-width:120px;padding:12px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;text-align:center">
+              <div style="font-size:22px;font-weight:800">${S.products.length}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.5)">Produk saat ini</div>
+            </div>
+          </div>
+
+          ${invalidRows.length>0?`<div style="padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:12px">⚠️ ${invalidRows.length} baris dilewati karena <strong>Nama Produk</strong> atau <strong>Link Download</strong> kosong.</div>`:''}
+
+          <!-- Preview table -->
+          <div style="max-height:300px;overflow-y:auto;border:1px solid rgba(255,255,255,.07);border-radius:10px">
+            <table style="width:100%;border-collapse:collapse;min-width:500px">
+              <thead style="position:sticky;top:0;background:#1a1a2e;z-index:1">
+                <tr>${['Nama Produk','Kategori','Harga','Link Drive','Tutorial','Status'].map(h=>`<th style="padding:10px 12px;text-align:left;font-size:11px;color:rgba(255,255,255,.35);font-weight:600;text-transform:uppercase;white-space:nowrap">${h}</th>`).join('')}</tr>
+              </thead>
+              <tbody>
+                ${rows.map(r=>`<tr style="border-top:1px solid rgba(255,255,255,.04);${!r.nama||!r.drive?'opacity:.45':''}">
+                  <td style="padding:9px 12px;font-size:13px;font-weight:600">${esc(r.nama||'—')}</td>
+                  <td style="padding:9px 12px;font-size:12px;color:rgba(255,255,255,.5)">${esc(r.kategori||'-')}</td>
+                  <td style="padding:9px 12px;font-size:12px;color:#4ade80">${r.harga?idr(r.harga):'-'}</td>
+                  <td style="padding:9px 12px;font-size:11px;color:${r.drive?'#60a5fa':'#f87171'}">${r.drive?'✓ OK':'✗ Kosong'}</td>
+                  <td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.35)">${r.tutorial?'✓':'—'}</td>
+                  <td style="padding:9px 12px">${(!r.nama||!r.drive)?`<span class="bo" style="font-size:10px">Dilewati</span>`:`<span class="bg" style="font-size:10px">✓ OK</span>`}</td>
+                </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Import mode selector -->
+        <div style="padding:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:10px;margin-bottom:16px">
+          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Mode Import</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:8px;border-radius:8px" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='transparent'">
+              <input type="radio" name="importMode" value="append" checked style="accent-color:#f97316;margin-top:2px;flex-shrink:0"/>
+              <div><div style="font-size:14px;font-weight:600">Tambahkan ke produk yang ada</div><div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">Produk lama tetap ada, produk baru ditambahkan</div></div>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:8px;border-radius:8px" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='transparent'">
+              <input type="radio" name="importMode" value="replace" style="accent-color:#f97316;margin-top:2px;flex-shrink:0"/>
+              <div><div style="font-size:14px;font-weight:600;color:#fb923c">Ganti semua produk (Replace)</div><div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">⚠️ Semua produk lama akan dihapus dan diganti dengan data baru</div></div>
+            </label>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <button class="btn-se" style="flex:1" onclick="S.importRows=[];S.importErr='';render()">← Upload Ulang</button>
+          <button class="btn-pr" style="flex:2;padding:14px" ${validRows.length===0?'disabled':''} onclick="doImport()">
+            📤 Import ${validRows.length} Produk
+          </button>
+        </div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+function handleImportFile(input){
+  const file=input.files?.[0];
+  if(!file){return;}
+  if(file.size>5*1024*1024){S.importErr='File terlalu besar (maks 5MB)';render();return;}
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    try{
+      const data=new Uint8Array(e.target.result);
+      const wb=XLSX.read(data,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const json=XLSX.utils.sheet_to_json(ws,{defval:''});
+      if(!json.length){S.importErr='File kosong atau format tidak dikenali';render();return;}
+      // Flexible column detection
+      const rows=json.map(row=>{
+        const keys=Object.keys(row).map(k=>k.toLowerCase().trim());
+        const get=(keywords)=>{
+          const key=Object.keys(row).find(k=>keywords.some(kw=>k.toLowerCase().includes(kw)));
+          return key?String(row[key]||'').trim():'';
+        };
+        return {
+          nama:  get(['nama','name','produk','product']),
+          kategori: get(['kategori','category','kat']),
+          harga: parseInt(String(get(['harga','price','harga (rp)'])||'0').replace(/[^0-9]/g,''))||0,
+          drive: get(['drive','download','link download','link file','file']),
+          tutorial: get(['tutorial','link tutorial']),
+        };
+      }).filter(r=>r.nama||r.drive); // skip completely empty rows
+      if(!rows.length){S.importErr='Tidak ada data yang bisa dibaca. Pastikan header kolom sesuai template.';render();return;}
+      S.importRows=rows;S.importErr='';render();
+    }catch(err){S.importErr='Gagal membaca file: '+err.message;render();}
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function doImport(){
+  const validRows=S.importRows.filter(r=>r.nama&&r.drive);
+  if(!validRows.length){toast('Tidak ada baris valid untuk diimport','error');return;}
+  const mode=document.querySelector('input[name="importMode"]:checked')?.value||'append';
+  const newProds=validRows.map(r=>({
+    id:'p_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+    name:r.nama,
+    category:r.kategori||'',
+    price:r.harga||'',
+    driveLink:r.drive,
+    tutorialLink:r.tutorial||'',
+    createdAt:new Date().toISOString(),
+  }));
+  const finalProds=mode==='replace'?newProds:[...S.products,...newProds];
+  S.products=finalProds;
+  DB.set('products',finalProds);
+  addLog('📤','Import produk',`${validRows.length} produk (mode: ${mode})`);
+  S.importDone=true;
+  render();
+  toast(`${validRows.length} produk berhasil diimport! 🎉`);
 }
 
 // ── MULTI-SELECT with SEARCH (FIX #4) ─────────────────────────────
