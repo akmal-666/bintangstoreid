@@ -94,7 +94,7 @@ footer{text-align:center;padding:20px;font-size:12px;color:rgba(255,255,255,.2);
 const SITE_URL   = 'https://bintangstore.id';
 const CS_CONFIG  = {
   shopee   : 'https://shopee.co.id/shop/SHOPEE_ID/chat', // URL chat toko Shopee
-  whatsapp : '6281234567890',   // nomor WA tanpa +, contoh: 6281234567890
+  whatsapp : '6289675696449',   // nomor WA tanpa +, contoh: 6281234567890
   telegram : 'bintangstoreid',  // username Telegram tanpa @
 };
 const MAX_TRIES  = 5;
@@ -102,7 +102,7 @@ const COOLDOWN_S = 600;
 
 // ── Apply CS config ───────────────────────────────────────────────
 document.getElementById('csShopeeLink').href = CS_CONFIG.shopee;
-document.getElementById('csWaLink').href     = 'https://wa.me/089675696449' + CS_CONFIG.whatsapp + '?text=' + encodeURIComponent('Halo Bintangstore ID, saya butuh bantuan');
+document.getElementById('csWaLink').href     = 'https://wa.me/' + CS_CONFIG.whatsapp + '?text=' + encodeURIComponent('Halo Bintangstore ID, saya butuh bantuan');
 document.getElementById('csTgLink').href     = 'https://t.me/' + CS_CONFIG.telegram;
 
 function toggleCS(){
